@@ -1,14 +1,17 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
+import { Provider } from '../../types/Providertype';
 import { ProviderButton } from '../atoms/Button/ProviderButton';
 
-export const ProviderButtons: React.FC = () => {
+type Props = {
+  authAction: (provider: Provider) => void;
+};
+
+export const ProviderButtons: React.FC<Props> = ({ authAction }: Props) => {
   return (
     <View style={styles.imageWrapper}>
-      <ProviderButton providerType="facebook" title="Facebook" />
-      <ProviderButton providerType="twitter" title="Twitter" />
-      <ProviderButton providerType="google" title="Google" />
-      <ProviderButton providerType="apple" title="Apple" />
+      <ProviderButton providerType="facebook" title="Facebook" authAction={authAction} />
+      <ProviderButton providerType="google" title="Google" authAction={authAction} />
     </View>
   );
 };

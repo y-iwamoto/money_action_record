@@ -10,8 +10,8 @@ import { HeaderIcon } from '../components/atoms/Header/HeaderIcon';
 import { HeaderTitle } from '../components/atoms/Header/HeaderTitle';
 
 const NAV_HEIGHT = Platform.select({
-  ios: hp('10%'),
-  android: hp('8%'),
+  ios: hp('11%'),
+  android: hp('10%'),
 });
 
 const Root = createStackNavigator();
@@ -38,6 +38,7 @@ export const AppNavigator: React.FC = () => {
               const component = <HeaderIcon />;
               return component;
             },
+            headerTitleAlign: 'left',
           }}
         />
       </Root.Navigator>

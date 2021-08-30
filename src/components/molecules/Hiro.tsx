@@ -1,5 +1,9 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 import { TextHiro } from '../atoms/Text/TextHiro';
 
 export const Hiro: React.FC = () => {
@@ -15,10 +19,10 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     backgroundColor: '#FFFFFF',
-    height: 100,
-    marginVertical: 10,
-    marginHorizontal: 10,
-    paddingHorizontal: 20,
-    paddingVertical: 30,
+    height: hp('14%'),
+    marginVertical: hp('2%'),
+    marginHorizontal: wp('2%'),
+    paddingHorizontal: wp('3%'),
+    paddingVertical: hp('5%'),
   },
 });

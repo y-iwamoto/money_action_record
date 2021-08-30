@@ -1,5 +1,9 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, View } from 'react-native';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 
 type Props = {
   label: string;
@@ -24,8 +28,8 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#ffffff',
-    paddingVertical: 15,
-    paddingHorizontal: 50,
-    fontSize: 20,
+    paddingVertical: hp('2%'),
+    paddingHorizontal: wp('15%'),
+    fontSize: wp('5%'),
   },
 });

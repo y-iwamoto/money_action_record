@@ -1,5 +1,10 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
+
 import { PrimaryButton } from '../atoms/Button/PrimaryButton';
 import { HeadingText } from '../atoms/Text/HeadingText';
 
@@ -15,13 +20,14 @@ export const TransitionSection: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignContent: 'center',
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
-    height: 180,
-    paddingHorizontal: 10,
-    marginVertical: 10,
-    marginHorizontal: 10,
+    height: hp('20%'),
+    paddingHorizontal: wp('2%'),
+    marginVertical: wp('3%'),
+    marginHorizontal: hp('2%'),
+    paddingBottom: hp('2%'),
   },
 });
