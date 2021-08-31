@@ -8,6 +8,7 @@ import {
   GOOGLE_ANDROID_CLIENT_ID_DEV,
   GOOGLE_IOS_CLIENT_ID_DEV,
   FACEBOOK_APP_ID_DEV,
+  LOAD_STORYBOOK,
 } from '@env';
 import Constants from 'expo-constants';
 const ENVs = {
@@ -23,6 +24,7 @@ const ENVs = {
     google_android_client_id: GOOGLE_ANDROID_CLIENT_ID_DEV,
     google_ios_client_id: GOOGLE_IOS_CLIENT_ID_DEV,
     facebook_app_id: FACEBOOK_APP_ID_DEV,
+    load_storybook: LOAD_STORYBOOK,
   },
   production: {
     // 本番環境の変数
@@ -36,6 +38,7 @@ const ENVs = {
     google_android_client_id: 'dummy',
     google_ios_client_id: 'dummy',
     facebook_app_id: 'dummy',
+    load_storybook: false,
   },
 };
 

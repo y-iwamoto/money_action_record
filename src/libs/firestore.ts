@@ -1,4 +1,4 @@
-import firebase  from 'firebase';
+import firebase from 'firebase';
 import * as GoogleAuthentication from 'expo-google-app-auth';
 import * as Facebook from 'expo-facebook';
 import { ENV } from '../environments';
@@ -12,7 +12,7 @@ const firebaseConfig = {
   messagingSenderId: ENV.firebase_messaging_sender_id,
   appId: ENV.firebase_app_id,
 };
-export const signin = (provider: Provider) : void => {
+export const signin = (provider: Provider): void => {
   switch (provider) {
   case 'facebook':
     authFacebook();

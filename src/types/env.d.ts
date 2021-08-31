@@ -10,4 +10,6 @@ declare module '@env' {
   export const GOOGLE_ANDROID_CLIENT_ID_DEV: string;
   export const GOOGLE_IOS_CLIENT_ID_DEV: string;
   export const FACEBOOK_APP_ID_DEV: string;
+
+  export const LOAD_STORYBOOK: boolean;
 }
