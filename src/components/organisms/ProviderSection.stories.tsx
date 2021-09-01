@@ -6,4 +6,6 @@ import CenterView from '../../../storybook/stories/CenterView';
 
 storiesOf('Organisms/ProviderSection', module)
   .addDecorator((getStory) => <CenterView>{getStory()}</CenterView>)
-  .add('ProviderSection', () => <ProviderSection authAction={action('clicked-text')} />);
+  .add('ProviderSection', () => <ProviderSection authAction={action('clicked-text')}
+    headingLabel="会員登録"
+    noteLabel="他サイトへのログインをすることで会員登録が完了します" />);
