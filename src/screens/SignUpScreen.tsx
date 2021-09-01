@@ -6,11 +6,13 @@ import { TransitionSection } from '../components/organisms/TransitionSection';
 import { LOGIN_ROUTE } from '../navigation/constant';
 import { BreadcrumbSection } from '../components/organisms/BreadcrumbSection';
 import { AuthScreenNavigationProp } from '../types/navigation';
+import { signup } from '../libs/firestore';
+import { Provider } from '../types/Providertype';
 
 export const SignUpScreen: React.FC = () => {
   const navigation = useNavigation<AuthScreenNavigationProp>();
-  const signUpAction = () => {
-    return true;
+  const signUpAction = (provider: Provider) => {
+    signup(provider);
   };
   const signInNavigation = () => {
     navigation.navigate(LOGIN_ROUTE);
