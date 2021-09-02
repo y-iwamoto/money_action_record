@@ -3,6 +3,11 @@ import * as GoogleAuthentication from 'expo-google-app-auth';
 import * as Facebook from 'expo-facebook';
 import { ENV } from '../environments';
 import { Provider } from '../types/Providertype';
+import {
+  NavigationConst,
+  REGISTER_ACCOUNT_ITEM_ROUTE,
+  SIGN_UP_ROUTE,
+} from '../navigation/constant';
 
 const firebaseConfig = {
   apiKey: ENV.firebase_api_key,
@@ -17,37 +22,37 @@ if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig);
 }
 
-export const signin = (provider: Provider): void => {
+export const signin = async (provider: Provider): Promise<NavigationConst> => {
   switch (provider) {
-  case 'facebook':
-    authFacebook().then(async (res) => {
-      if (!res) return;
-      await userCreatedCheck(res);
-    });
-    break;
-  case 'google':
-    googleAuth().then(async (res) => {
-      if (!res) return;
-      await userCreatedCheck(res);
-    });
-    break;
+    case 'facebook':
+      await authFacebook().then(async (res) => {
+        if (!res) return;
+        await userCreatedCheck(res);
+      });
+      return SIGN_UP_ROUTE;
+    case 'google':
+      await googleAuth().then(async (res) => {
+        if (!res) return;
+        await userCreatedCheck(res);
+      });
+      return SIGN_UP_ROUTE;
   }
 };
 
-export const signup = (provider: Provider): void => {
+export const signup = async (provider: Provider): Promise<NavigationConst> => {
   switch (provider) {
-  case 'facebook':
-    authFacebook().then(async (res): Promise<void> => {
-      if (!res) return;
-      await userCreate(res);
-    });
-    break;
-  case 'google':
-    googleAuth().then(async (res): Promise<void> => {
-      if (!res) return;
-      await userCreate(res);
-    });
-    break;
+    case 'facebook':
+      await authFacebook().then(async (res): Promise<void> => {
+        if (!res) return;
+        await userCreate(res);
+      });
+      return REGISTER_ACCOUNT_ITEM_ROUTE;
+    case 'google':
+      await googleAuth().then(async (res): Promise<void> => {
+        if (!res) return;
+        await userCreate(res);
+      });
+      return REGISTER_ACCOUNT_ITEM_ROUTE;
   }
 };
 
