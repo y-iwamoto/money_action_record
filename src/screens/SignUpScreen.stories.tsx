@@ -1,11 +1,11 @@
 import { storiesOf } from '@storybook/react-native';
 import React from 'react';
 import CenterView from '../../storybook/stories/CenterView';
-import { LoginScreen } from './LoginScreen';
 import {reactNavigationDecorator} from '../../storybook/StoryNavigator';
+import { SignUpScreen } from './SignUpScreen';
 
 
-storiesOf('Stories/LoginScreen', module)
+storiesOf('Stories/SignUpScreen', module)
   .addDecorator((getStory) => <CenterView>{getStory()}</CenterView>)
   .addDecorator(reactNavigationDecorator)
-  .add('LoginScreen', () => <LoginScreen />);
+  .add('SignUpScreen', () => <SignUpScreen />);
