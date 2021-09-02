@@ -9,11 +9,13 @@ export type Resopnse = {
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function userAuthActionHooks(
   navigation: AuthScreenNavigationProp,
-  action: (provider: Provider) => void,
+  action: (provider: Provider) => Promise<NavigationConst>,
   navigation_const: NavigationConst,
 ) {
   const authAction = (provider: Provider) => {
-    action(provider);
+    action(provider).then((transfer: NavigationConst) => {
+      navigation.navigate(transfer);
+    });
   };
   const navigationAction = () => {
     navigation.navigate(navigation_const);

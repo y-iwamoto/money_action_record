@@ -1,13 +1,14 @@
-import React from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { BaseSyntheticEvent } from 'react';
 import { TouchableOpacity, Text, StyleSheet, View } from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-
 type Props = {
   label: string;
-  action: () => void;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  action: ((e?: BaseSyntheticEvent<object, any, any> | undefined) => Promise<void>) | (() => void);
 };
 
 export const PrimaryButton: React.FC<Props> = ({ label, action }: Props) => {
@@ -30,7 +31,9 @@ const styles = StyleSheet.create({
   text: {
     color: '#ffffff',
     paddingVertical: hp('2%'),
-    paddingHorizontal: wp('15%'),
+    width: wp('72%'),
+    paddingHorizontal: wp('8%'),
+    textAlign: 'center',
     fontSize: wp('5%'),
   },
 });

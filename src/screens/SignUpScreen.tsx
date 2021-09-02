@@ -15,7 +15,7 @@ export const SignUpScreen: React.FC = () => {
 
   return (
     <View>
-      <BreadcrumbSection />
+      <BreadcrumbSection flowDepth={0} />
       <ProviderSection
         authAction={authAction}
         headingLabel="会員登録"
