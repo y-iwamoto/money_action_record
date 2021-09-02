@@ -8,11 +8,21 @@ import {
 import { PrimaryButton } from '../atoms/Button/PrimaryButton';
 import { HeadingText } from '../atoms/Text/HeadingText';
 
-export const TransitionSection: React.FC = () => {
+type Props = {
+  navigation: () => void;
+  headingLabel: string;
+  buttonLabel: string;
+};
+
+export const TransitionSection: React.FC<Props> = ({
+  navigation,
+  headingLabel,
+  buttonLabel,
+}: Props) => {
   return (
     <View style={styles.container}>
-      <HeadingText label="アカウントをお持ちでない方" />
-      <PrimaryButton label="会員登録はこちら" />
+      <HeadingText label={headingLabel} />
+      <PrimaryButton label={buttonLabel} action={navigation} />
     </View>
   );
 };

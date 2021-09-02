@@ -7,12 +7,13 @@ import {
 
 type Props = {
   label: string;
+  action: () => void;
 };
 
-export const PrimaryButton: React.FC<Props> = ({ label }: Props) => {
+export const PrimaryButton: React.FC<Props> = ({ label, action }: Props) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={action}>
         <Text style={styles.text}>{label}</Text>
       </TouchableOpacity>
     </View>

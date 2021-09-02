@@ -8,27 +8,45 @@ import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { LoginScreen } from '../screens/LoginScreen';
 import { HeaderIcon } from '../components/atoms/Header/HeaderIcon';
 import { HeaderTitle } from '../components/atoms/Header/HeaderTitle';
+import { SignUpScreen } from '../screens/SignUpScreen';
+import { LOGIN_ROUTE, SIGN_UP_ROUTE } from './constant';
+import { RootStackParamList } from '../types/navigation';
 
 const NAV_HEIGHT = Platform.select({
   ios: hp('11%'),
   android: hp('10%'),
 });
 
-const Root = createStackNavigator();
+const Root = createStackNavigator<RootStackParamList>();
 
 export const AppNavigator: React.FC = () => {
   return (
     <NavigationContainer>
       <Root.Navigator
-        initialRouteName="LoginScreen"
+        initialRouteName={LOGIN_ROUTE}
         screenOptions={{
           headerStyle: {
             height: NAV_HEIGHT,
           },
         }}>
         <Root.Screen
-          name="LoginScreen"
+          name={LOGIN_ROUTE}
           component={LoginScreen}
+          options={{
+            headerTitle: () => {
+              const component = <HeaderTitle />;
+              return component;
+            },
+            headerLeft: () => {
+              const component = <HeaderIcon />;
+              return component;
+            },
+            headerTitleAlign: 'left',
+          }}
+        />
+        <Root.Screen
+          name={SIGN_UP_ROUTE}
+          component={SignUpScreen}
           options={{
             headerTitle: () => {
               const component = <HeaderTitle />;
