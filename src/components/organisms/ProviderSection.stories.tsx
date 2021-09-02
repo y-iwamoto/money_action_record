@@ -14,9 +14,5 @@ storiesOf('Organisms/ProviderSection', module)
     />
   ))
   .add('ProviderSection not noteLabel', () => (
-    <ProviderSection
-      authAction={action('clicked-text')}
-      headingLabel="ログイン"
-      noteLabel={null}
-    />
+    <ProviderSection authAction={action('clicked-text')} headingLabel="ログイン" noteLabel={null} />
   ));

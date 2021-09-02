@@ -15,10 +15,13 @@ type Props = {
   noteLabel: string | null;
 };
 
-export const ProviderSection: React.FC<Props> = ({ authAction, headingLabel, noteLabel }: Props) => {
-
+export const ProviderSection: React.FC<Props> = ({
+  authAction,
+  headingLabel,
+  noteLabel,
+}: Props) => {
   return (
-    <View style={noteLabel ? [styles.container, {height: hp('30%')}] : [styles.container]}>
+    <View style={noteLabel ? [styles.container, { height: hp('30%') }] : [styles.container]}>
       <HeadingText label={headingLabel} />
       {noteLabel ? <NoteText label={noteLabel} /> : null}
       <ProviderButtons authAction={authAction} />

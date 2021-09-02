@@ -5,6 +5,4 @@ import { BreadcrumbSection } from './BreadcrumbSection';
 
 storiesOf('Organisms/BreadcrumbSection', module)
   .addDecorator((getStory) => <CenterView>{getStory()}</CenterView>)
-  .add('BreadcrumbSection', () => (
-    <BreadcrumbSection/>
-  ));
+  .add('BreadcrumbSection', () => <BreadcrumbSection />);

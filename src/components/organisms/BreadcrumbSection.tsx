@@ -6,7 +6,6 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 
-
 export const BreadcrumbSection: React.FC = () => {
   return (
     <View style={styles.container}>
@@ -17,7 +16,6 @@ export const BreadcrumbSection: React.FC = () => {
         height={30}
         borderRadius={5}
       />
-
     </View>
   );
 };
@@ -29,6 +27,5 @@ const styles = StyleSheet.create({
     marginHorizontal: wp('2%'),
     paddingHorizontal: wp('5%'),
     justifyContent: 'center',
-  }
-
+  },
 });

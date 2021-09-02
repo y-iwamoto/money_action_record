@@ -15,11 +15,17 @@ export const SignUpScreen: React.FC = () => {
 
   return (
     <View>
-      <BreadcrumbSection/>
-      <ProviderSection authAction={authAction} headingLabel="会員登録" 
-        noteLabel="他サイトへのログインをすることで会員登録が完了します" />
-      <TransitionSection  navigation={navigationAction}
-        headingLabel="アカウントをお持ちの方" buttonLabel="ログインする"/>
+      <BreadcrumbSection />
+      <ProviderSection
+        authAction={authAction}
+        headingLabel="会員登録"
+        noteLabel="他サイトへのログインをすることで会員登録が完了します"
+      />
+      <TransitionSection
+        navigation={navigationAction}
+        headingLabel="アカウントをお持ちの方"
+        buttonLabel="ログインする"
+      />
     </View>
   );
 };

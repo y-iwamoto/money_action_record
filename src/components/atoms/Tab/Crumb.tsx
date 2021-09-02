@@ -5,18 +5,24 @@ const HEIGHT = 23;
 const COLOR = '#1F2933';
 
 type Props = {
-    isCrumbActive: boolean;
-    index: number;
-    text: string;
-    firstCrumbStyle: { borderTopLeftRadius: number; borderBottomLeftRadius: number;}[]  | null;
-    lastCrumbStyle: { borderTopRightRadius: number; borderBottomRightRadius: number; }[] | null;
-    height: number;
-    triangleHeadStyle: { [key: string]: number | undefined };
-    triangleTailStyle: { [key: string]: number | undefined };
-
-}
-export const Crumb: React.FC<Props> = ({ isCrumbActive, text, firstCrumbStyle, lastCrumbStyle,
-  height, triangleHeadStyle, triangleTailStyle }: Props) => {
+  isCrumbActive: boolean;
+  index: number;
+  text: string;
+  firstCrumbStyle: { borderTopLeftRadius: number; borderBottomLeftRadius: number }[] | null;
+  lastCrumbStyle: { borderTopRightRadius: number; borderBottomRightRadius: number }[] | null;
+  height: number;
+  triangleHeadStyle: { [key: string]: number | undefined };
+  triangleTailStyle: { [key: string]: number | undefined };
+};
+export const Crumb: React.FC<Props> = ({
+  isCrumbActive,
+  text,
+  firstCrumbStyle,
+  lastCrumbStyle,
+  height,
+  triangleHeadStyle,
+  triangleTailStyle,
+}: Props) => {
   return (
     <TouchableOpacity
       style={[
@@ -24,24 +30,45 @@ export const Crumb: React.FC<Props> = ({ isCrumbActive, text, firstCrumbStyle, l
         isCrumbActive ? [styles.activeCrumbStyle] : {},
         firstCrumbStyle,
         lastCrumbStyle,
-        { height }]}
-      activeOpacity={1}
-    >
-      {Platform.OS === 'android' && !firstCrumbStyle ? <View style={{ width: height / 2.0, height, backgroundColor: 'transparent' }} /> : null}
+        { height },
+      ]}
+      activeOpacity={1}>
+      {Platform.OS === 'android' && !firstCrumbStyle ? (
+        <View style={{ width: height / 2.0, height, backgroundColor: 'transparent' }} />
+      ) : null}
       <View style={styles.crumbContainer}>
-        {isCrumbActive && !firstCrumbStyle ? <View style={[styles.leftTriangleContainer, styles.triangleTail, triangleTailStyle, { left: - height / 2 }, Platform.OS === 'android' ? { } : {}]} /> : null}
+        {isCrumbActive && !firstCrumbStyle ? (
+          <View
+            style={[
+              styles.leftTriangleContainer,
+              styles.triangleTail,
+              triangleTailStyle,
+              { left: -height / 2 },
+              Platform.OS === 'android' ? {} : {},
+            ]}
+          />
+        ) : null}
         <Text
-          style={[
-            styles.crumbTextStyle,
-            isCrumbActive ? [styles.activeCrumbTextStyle] : {}]}
+          style={[styles.crumbTextStyle, isCrumbActive ? [styles.activeCrumbTextStyle] : {}]}
           numberOfLines={1}
-          ellipsizeMode="tail"
-        >
+          ellipsizeMode="tail">
           {'  ' + text + ' '}
         </Text>
-        {isCrumbActive && !lastCrumbStyle ? <View style={[styles.rightTriangleContainer, styles.triangleHead, triangleHeadStyle, { right: - height / 2 }, Platform.OS === 'android' ? { } : {}]} /> : null}
+        {isCrumbActive && !lastCrumbStyle ? (
+          <View
+            style={[
+              styles.rightTriangleContainer,
+              styles.triangleHead,
+              triangleHeadStyle,
+              { right: -height / 2 },
+              Platform.OS === 'android' ? {} : {},
+            ]}
+          />
+        ) : null}
       </View>
-      {Platform.OS === 'android' && !lastCrumbStyle ? <View style={{ width: height / 2.0 , height, backgroundColor: 'white' }} /> : null}
+      {Platform.OS === 'android' && !lastCrumbStyle ? (
+        <View style={{ width: height / 2.0, height, backgroundColor: 'white' }} />
+      ) : null}
     </TouchableOpacity>
   );
 };
@@ -58,35 +85,35 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     backgroundColor: 'transparent',
-    height: HEIGHT
+    height: HEIGHT,
   },
   activeCrumbStyle: {
     backgroundColor: COLOR,
-    borderColor: COLOR
+    borderColor: COLOR,
   },
   crumbTextStyle: {
     color: COLOR,
-    fontSize: 12
+    fontSize: 12,
   },
   activeCrumbTextStyle: {
     color: 'white',
-    fontWeight: '600'
+    fontWeight: '600',
   },
   crumbContainer: {
     flexDirection: 'row',
     alignSelf: 'center',
     alignItems: 'center',
-    paddingHorizontal: 5
+    paddingHorizontal: 5,
   },
   rightTriangleContainer: {
     position: 'absolute',
     right: 0,
-    zIndex: 1
+    zIndex: 1,
   },
   leftTriangleContainer: {
     position: 'absolute',
     left: 0,
-    zIndex: 1
+    zIndex: 1,
   },
   triangleHead: {
     borderTopWidth: HEIGHT / 2.0,
@@ -105,5 +132,5 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
     borderTopColor: COLOR,
     borderBottomColor: COLOR,
-  }
+  },
 });

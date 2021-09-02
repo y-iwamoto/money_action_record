@@ -14,7 +14,11 @@ type Props = {
   buttonLabel: string;
 };
 
-export const TransitionSection: React.FC<Props> = ({ navigation, headingLabel, buttonLabel }: Props) => {
+export const TransitionSection: React.FC<Props> = ({
+  navigation,
+  headingLabel,
+  buttonLabel,
+}: Props) => {
   return (
     <View style={styles.container}>
       <HeadingText label={headingLabel} />

@@ -17,24 +17,19 @@ if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig);
 }
 
-
 export const signin = (provider: Provider): void => {
   switch (provider) {
   case 'facebook':
-    authFacebook().then(
-      async (res) => {
-        if (!res) return;
-        await userCreatedCheck(res);
-      }
-    );
+    authFacebook().then(async (res) => {
+      if (!res) return;
+      await userCreatedCheck(res);
+    });
     break;
   case 'google':
-    googleAuth().then(
-      async (res) => {
-        if (!res) return;
-        await userCreatedCheck(res);
-      }
-    );
+    googleAuth().then(async (res) => {
+      if (!res) return;
+      await userCreatedCheck(res);
+    });
     break;
   }
 };
@@ -42,20 +37,16 @@ export const signin = (provider: Provider): void => {
 export const signup = (provider: Provider): void => {
   switch (provider) {
   case 'facebook':
-    authFacebook().then(
-      async (res): Promise<void> => {
-        if (!res) return;
-        await userCreate(res);
-      }
-    );
+    authFacebook().then(async (res): Promise<void> => {
+      if (!res) return;
+      await userCreate(res);
+    });
     break;
   case 'google':
-    googleAuth().then(
-      async (res): Promise<void> => {
-        if (!res) return;
-        await userCreate(res);
-      }
-    );
+    googleAuth().then(async (res): Promise<void> => {
+      if (!res) return;
+      await userCreate(res);
+    });
     break;
   }
 };
@@ -91,9 +82,7 @@ const authFacebook = async () => {
     if (res.type === 'success') {
       const credential = firebase.auth.FacebookAuthProvider.credential(res.token);
 
-      const userCredential = await firebase
-        .auth()
-        .signInWithCredential(credential);
+      const userCredential = await firebase.auth().signInWithCredential(credential);
       return userCredential;
     } else {
       return null;
@@ -106,7 +95,9 @@ const authFacebook = async () => {
 async function userCreatedCheck(res: firebase.auth.UserCredential) {
   const user = res.user;
   try {
-    const userDoc = user ? await firebase.firestore().collection('users').doc(user.uid).get() : null;
+    const userDoc = user
+      ? await firebase.firestore().collection('users').doc(user.uid).get()
+      : null;
     if (!userDoc || !userDoc.exists) {
       alert('ユーザ登録が済んでいません');
     } else {
@@ -121,17 +112,23 @@ async function userCreate(res: firebase.auth.UserCredential) {
   const user = res.user;
   if (!user) return;
   try {
-    const userDoc = user ? await firebase.firestore().collection('users').doc(user.uid).get() : null;
+    const userDoc = user
+      ? await firebase.firestore().collection('users').doc(user.uid).get()
+      : null;
     if (user && (!userDoc || !userDoc.exists)) {
-      await firebase.firestore().collection('users').doc(user.uid).set({
-        displayName: user.displayName ? user.displayName : null,
-        email: user.email ? user.email : null,
-        photoURL: user.photoURL ? user.photoURL : null,
-        providerId: user.providerId ? user.providerId : null,
-        uid: user.uid,
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
-      });
+      await firebase
+        .firestore()
+        .collection('users')
+        .doc(user.uid)
+        .set({
+          displayName: user.displayName ? user.displayName : null,
+          email: user.email ? user.email : null,
+          photoURL: user.photoURL ? user.photoURL : null,
+          providerId: user.providerId ? user.providerId : null,
+          uid: user.uid,
+          createdAt: Date.now(),
+          updatedAt: Date.now(),
+        });
       alert('ユーザ登録に成功しました');
     } else {
       alert('ユーザ登録が済みです');
@@ -140,4 +137,3 @@ async function userCreate(res: firebase.auth.UserCredential) {
     alert('ユーザ登録に失敗しました');
   }
 }
-

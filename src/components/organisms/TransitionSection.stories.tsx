@@ -6,5 +6,10 @@ import { TransitionSection } from './TransitionSection';
 
 storiesOf('Organisms/TransitionSection', module)
   .addDecorator((getStory) => <CenterView>{getStory()}</CenterView>)
-  .add('TransitionSection', () => <TransitionSection navigation={action('clicked-text')}
-    headingLabel="アカウントをお持ちの方" buttonLabel="ログインする"/>);
+  .add('TransitionSection', () => (
+    <TransitionSection
+      navigation={action('clicked-text')}
+      headingLabel="アカウントをお持ちの方"
+      buttonLabel="ログインする"
+    />
+  ));

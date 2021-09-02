@@ -16,9 +16,12 @@ export const LoginScreen: React.FC = () => {
   return (
     <View>
       <Hiro />
-      <ProviderSection authAction={authAction} headingLabel="ログイン" noteLabel={null}/>
-      <TransitionSection navigation={navigationAction}
-        headingLabel="アカウントをお持ちでない方" buttonLabel="会員登録はこちら" />
+      <ProviderSection authAction={authAction} headingLabel="ログイン" noteLabel={null} />
+      <TransitionSection
+        navigation={navigationAction}
+        headingLabel="アカウントをお持ちでない方"
+        buttonLabel="会員登録はこちら"
+      />
     </View>
   );
 };
