@@ -8,7 +8,7 @@ export type FormData = {
   item: string;
 };
 export const RegisterAccountItemScreen: React.FC = () => {
-  const methods = useForm();
+  const methods = useForm({ defaultValues: { items: [{ item: '' }] } });
   const onSubmit = (data: FormData) => console.warn(data);
   return (
     <View>

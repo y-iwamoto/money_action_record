@@ -9,8 +9,7 @@ import { View, StyleSheet } from 'react-native';
 import { PrimaryButton } from '../atoms/Button/PrimaryButton';
 import { HeadingText } from '../atoms/Text/HeadingText';
 import { NoteText } from '../atoms/Text/NoteText';
-import { Input } from '../atoms/Form/Input';
-import { Link } from '../atoms/Text/Link';
+import { Inputs } from '../atoms/Form/Inputs';
 
 type Props = {
   // eslint-disable-next-line @typescript-eslint/ban-types
@@ -21,8 +20,7 @@ export const FormSection: React.FC<Props> = ({ onSubmit }: Props) => {
     <View style={styles.container}>
       <HeadingText label="家計簿項目登録" />
       <NoteText label="家計簿で記録していきたい項目を追加しましょう" />
-      <Input />
-      <Link />
+      <Inputs />
       <PrimaryButton label="項目登録を完了する" action={onSubmit} />
     </View>
   );
@@ -34,7 +32,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
-    height: hp('45%'),
+    height: hp('40%'),
     paddingHorizontal: wp('3%'),
     marginVertical: hp('2%'),
     marginHorizontal: wp('2%'),
