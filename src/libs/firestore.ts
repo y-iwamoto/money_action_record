@@ -1,15 +1,6 @@
 import firebase from 'firebase';
-import * as GoogleAuthentication from 'expo-google-app-auth';
-import * as Facebook from 'expo-facebook';
 import { ENV } from '../environments';
-import { Provider } from '../types/Providertype';
-import {
-  HOUSEHOLD_ACCOUNTS_ROUTE,
-  LOGIN_ROUTE,
-  NavigationConst,
-  REGISTER_ACCOUNT_ITEM_ROUTE,
-  SIGN_UP_ROUTE,
-} from '../navigation/constant';
+import { HOUSEHOLD_ACCOUNTS_ROUTE, NavigationConst } from '../navigation/constant';
 import { Item, RegusterAccountItemFormData } from '../screens/RegisterAccountItemScreen';
 import { User } from '../types/user';
 
@@ -25,66 +16,6 @@ const firebaseConfig = {
 if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig);
 }
-
-export const signin = async (
-  provider: Provider,
-): Promise<{
-  transfer: NavigationConst;
-  user: firebase.firestore.DocumentData;
-}> => {
-  let user = null;
-  try {
-    switch (provider) {
-    case 'facebook':
-      user = await authFacebook().then(async (res) => {
-        if (!res) return;
-        return await userCreatedCheck(res);
-      });
-      if (!user) return { transfer: LOGIN_ROUTE, user: {} };
-      return { transfer: REGISTER_ACCOUNT_ITEM_ROUTE, user };
-    case 'google':
-      user = await googleAuth().then(async (res) => {
-        if (!res) return;
-        return await userCreatedCheck(res);
-      });
-      if (!user) return { transfer: LOGIN_ROUTE, user: {} };
-      return { transfer: REGISTER_ACCOUNT_ITEM_ROUTE, user };
-    }
-  } catch (e) {
-    alert('ログイン処理に失敗しました');
-    return { transfer: LOGIN_ROUTE, user: {} };
-  }
-};
-
-export const signup = async (
-  provider: Provider,
-): Promise<{
-  transfer: NavigationConst;
-  user: firebase.firestore.DocumentData;
-}> => {
-  let user = null;
-  try {
-    switch (provider) {
-    case 'facebook':
-      user = await authFacebook().then(async (res) => {
-        if (!res) return;
-        return await userCreate(res);
-      });
-      if (!user) return { transfer: SIGN_UP_ROUTE, user: {} };
-      return { transfer: REGISTER_ACCOUNT_ITEM_ROUTE, user };
-    case 'google':
-      user = await googleAuth().then(async (res) => {
-        if (!res) return;
-        return await userCreate(res);
-      });
-      if (!user) return { transfer: SIGN_UP_ROUTE, user: {} };
-      return { transfer: REGISTER_ACCOUNT_ITEM_ROUTE, user };
-    }
-  } catch (e) {
-    alert('登録処理に失敗しました');
-    return { transfer: SIGN_UP_ROUTE, user: {} };
-  }
-};
 
 export const saveItems = async (
   req: RegusterAccountItemFormData,
@@ -126,48 +57,9 @@ export const saveItems = async (
   }
 };
 
-const googleAuth = async () => {
-  return await GoogleAuthentication.logInAsync({
-    androidClientId: ENV.google_android_client_id,
-    iosClientId: ENV.google_ios_client_id,
-    scopes: ['profile', 'email'],
-  })
-    .then((result) => {
-      if (result.type === 'success') {
-        const { idToken, accessToken } = result;
-        const credential = firebase.auth.GoogleAuthProvider.credential(idToken, accessToken);
-        return firebase.auth().signInWithCredential(credential);
-      }
-      return null;
-    })
-    .catch((e) => {
-      alert('エラーです');
-      return Promise.reject({ error: e });
-    });
-};
-
-const authFacebook = async () => {
-  try {
-    await Facebook.initializeAsync({
-      appId: ENV.facebook_app_id,
-    });
-    const res = await Facebook.logInWithReadPermissionsAsync({
-      permissions: ['public_profile'],
-    });
-    if (res.type === 'success') {
-      const credential = firebase.auth.FacebookAuthProvider.credential(res.token);
-
-      const userCredential = await firebase.auth().signInWithCredential(credential);
-      return userCredential;
-    } else {
-      return null;
-    }
-  } catch (e) {
-    alert('エラーです');
-    return Promise.reject({ error: e });
-  }
-};
-async function userCreatedCheck(res: firebase.auth.UserCredential) {
+export async function userCreatedCheck(
+  res: firebase.auth.UserCredential,
+): Promise<firebase.firestore.DocumentData | void> {
   const user = res.user;
   try {
     const userDoc = user
@@ -184,7 +76,9 @@ async function userCreatedCheck(res: firebase.auth.UserCredential) {
   }
 }
 
-async function userCreate(res: firebase.auth.UserCredential) {
+export async function userCreate(
+  res: firebase.auth.UserCredential,
+): Promise<firebase.firestore.DocumentData | void> {
   const user = res.user;
   if (!user) return;
   try {

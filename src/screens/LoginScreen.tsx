@@ -6,9 +6,9 @@ import { ProviderSection } from '../components/organisms/ProviderSection';
 import { TransitionSection } from '../components/organisms/TransitionSection';
 import { UserContext } from '../contexts/userContext';
 import { userAuthActionHooks } from '../hooks/userAuthActionHooks';
-import { signin } from '../libs/firestore';
 import { SIGN_UP_ROUTE } from '../navigation/constant';
 import { AuthScreenNavigationProp } from '../types/navigation';
+import { signin } from '../utils/authAction';
 
 export const LoginScreen: React.FC = () => {
   const navigation = useNavigation<AuthScreenNavigationProp>();
