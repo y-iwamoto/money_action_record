@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useContext } from 'react';
 import { View } from 'react-native';
 import { ProviderSection } from '../components/organisms/ProviderSection';
 import { TransitionSection } from '../components/organisms/TransitionSection';
@@ -8,10 +8,17 @@ import { BreadcrumbSection } from '../components/organisms/BreadcrumbSection';
 import { AuthScreenNavigationProp } from '../types/navigation';
 import { signup } from '../libs/firestore';
 import { userAuthActionHooks } from '../hooks/userAuthActionHooks';
+import { UserContext } from '../contexts/userContext';
 
 export const SignUpScreen: React.FC = () => {
   const navigation = useNavigation<AuthScreenNavigationProp>();
-  const { authAction, navigationAction } = userAuthActionHooks(navigation, signup, LOGIN_ROUTE);
+  const { setUser } = useContext(UserContext);
+  const { authAction, navigationAction } = userAuthActionHooks(
+    navigation,
+    signup,
+    LOGIN_ROUTE,
+    setUser,
+  );
 
   return (
     <View>

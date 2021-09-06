@@ -1,9 +1,10 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useContext } from 'react';
 import { View } from 'react-native';
 import { Hiro } from '../components/molecules/Hiro';
 import { ProviderSection } from '../components/organisms/ProviderSection';
 import { TransitionSection } from '../components/organisms/TransitionSection';
+import { UserContext } from '../contexts/userContext';
 import { userAuthActionHooks } from '../hooks/userAuthActionHooks';
 import { signin } from '../libs/firestore';
 import { SIGN_UP_ROUTE } from '../navigation/constant';
@@ -11,7 +12,13 @@ import { AuthScreenNavigationProp } from '../types/navigation';
 
 export const LoginScreen: React.FC = () => {
   const navigation = useNavigation<AuthScreenNavigationProp>();
-  const { authAction, navigationAction } = userAuthActionHooks(navigation, signin, SIGN_UP_ROUTE);
+  const { setUser } = useContext(UserContext);
+  const { authAction, navigationAction } = userAuthActionHooks(
+    navigation,
+    signin,
+    SIGN_UP_ROUTE,
+    setUser,
+  );
 
   return (
     <View>

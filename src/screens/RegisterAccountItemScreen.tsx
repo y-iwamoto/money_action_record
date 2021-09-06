@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { View } from 'react-native';
 import { BreadcrumbSection } from '../components/organisms/BreadcrumbSection';
 import { FormSection } from '../components/organisms/FormSection';
+import { UserContext } from '../contexts/userContext';
 import { saveItems } from '../libs/firestore';
 
 export type Item = {
@@ -15,7 +16,8 @@ export type RegusterAccountItemFormData = {
 
 export const RegisterAccountItemScreen: React.FC = () => {
   const methods = useForm({ defaultValues: { items: [{ item: '' }] } });
-  const onSubmit = (data: RegusterAccountItemFormData) => saveItems(data);
+  const { user } = useContext(UserContext);
+  const onSubmit = (data: RegusterAccountItemFormData) => saveItems(data, user);
   return (
     <View>
       <BreadcrumbSection flowDepth={1} />

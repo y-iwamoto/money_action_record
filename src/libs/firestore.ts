@@ -5,11 +5,13 @@ import { ENV } from '../environments';
 import { Provider } from '../types/Providertype';
 import {
   HOUSEHOLD_ACCOUNTS_ROUTE,
+  LOGIN_ROUTE,
   NavigationConst,
   REGISTER_ACCOUNT_ITEM_ROUTE,
   SIGN_UP_ROUTE,
 } from '../navigation/constant';
 import { Item, RegusterAccountItemFormData } from '../screens/RegisterAccountItemScreen';
+import { User } from '../types/user';
 
 const firebaseConfig = {
   apiKey: ENV.firebase_api_key,
@@ -24,48 +26,79 @@ if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig);
 }
 
-export const signin = async (provider: Provider): Promise<NavigationConst> => {
-  switch (provider) {
+export const signin = async (
+  provider: Provider,
+): Promise<{
+  transfer: NavigationConst;
+  user: firebase.firestore.DocumentData;
+}> => {
+  let user = null;
+  try {
+    switch (provider) {
     case 'facebook':
-      await authFacebook().then(async (res) => {
+      user = await authFacebook().then(async (res) => {
         if (!res) return;
-        await userCreatedCheck(res);
+        return await userCreatedCheck(res);
       });
-      return SIGN_UP_ROUTE;
+      if (!user) return { transfer: LOGIN_ROUTE, user: {} };
+      return { transfer: REGISTER_ACCOUNT_ITEM_ROUTE, user };
     case 'google':
-      await googleAuth().then(async (res) => {
+      user = await googleAuth().then(async (res) => {
         if (!res) return;
-        await userCreatedCheck(res);
+        return await userCreatedCheck(res);
       });
-      return SIGN_UP_ROUTE;
+      if (!user) return { transfer: LOGIN_ROUTE, user: {} };
+      return { transfer: REGISTER_ACCOUNT_ITEM_ROUTE, user };
+    }
+  } catch (e) {
+    alert('ログイン処理に失敗しました');
+    return { transfer: LOGIN_ROUTE, user: {} };
   }
 };
 
-export const signup = async (provider: Provider): Promise<NavigationConst> => {
-  switch (provider) {
+export const signup = async (
+  provider: Provider,
+): Promise<{
+  transfer: NavigationConst;
+  user: firebase.firestore.DocumentData;
+}> => {
+  let user = null;
+  try {
+    switch (provider) {
     case 'facebook':
-      await authFacebook().then(async (res): Promise<void> => {
+      user = await authFacebook().then(async (res) => {
         if (!res) return;
-        await userCreate(res);
+        return await userCreate(res);
       });
-      return REGISTER_ACCOUNT_ITEM_ROUTE;
+      if (!user) return { transfer: SIGN_UP_ROUTE, user: {} };
+      return { transfer: REGISTER_ACCOUNT_ITEM_ROUTE, user };
     case 'google':
-      await googleAuth().then(async (res): Promise<void> => {
+      user = await googleAuth().then(async (res) => {
         if (!res) return;
-        await userCreate(res);
+        return await userCreate(res);
       });
-      return REGISTER_ACCOUNT_ITEM_ROUTE;
+      if (!user) return { transfer: SIGN_UP_ROUTE, user: {} };
+      return { transfer: REGISTER_ACCOUNT_ITEM_ROUTE, user };
+    }
+  } catch (e) {
+    alert('登録処理に失敗しました');
+    return { transfer: SIGN_UP_ROUTE, user: {} };
   }
 };
 
 export const saveItems = async (
   req: RegusterAccountItemFormData,
+  user?: User | null,
 ): Promise<NavigationConst | void> => {
   const db = firebase.firestore();
   const batch = db.batch();
   const date = new Date();
   const currentTime = date.getTime();
-  const uid = 'test';
+  if (!user) {
+    alert('家計簿項目の登録エラー');
+    return;
+  }
+  const uid = user.uid;
   try {
     const itemReferece = await db.collection('users').doc(uid).collection('items');
     req.items.forEach(async (doc: Item) => {
@@ -144,6 +177,7 @@ async function userCreatedCheck(res: firebase.auth.UserCredential) {
       alert('ユーザ登録が済んでいません');
     } else {
       alert('ユーザログイン');
+      return userDoc.data();
     }
   } catch (e) {
     alert('エラーです');
@@ -154,9 +188,7 @@ async function userCreate(res: firebase.auth.UserCredential) {
   const user = res.user;
   if (!user) return;
   try {
-    const userDoc = user
-      ? await firebase.firestore().collection('users').doc(user.uid).get()
-      : null;
+    let userDoc = user ? await firebase.firestore().collection('users').doc(user.uid).get() : null;
     if (user && (!userDoc || !userDoc.exists)) {
       await firebase
         .firestore()
@@ -171,7 +203,10 @@ async function userCreate(res: firebase.auth.UserCredential) {
           createdAt: Date.now(),
           updatedAt: Date.now(),
         });
+      userDoc = await firebase.firestore().collection('users').doc(user.uid).get();
+      const userData = userDoc.data();
       alert('ユーザ登録に成功しました');
+      return userData;
     } else {
       alert('ユーザ登録が済みです');
     }
