@@ -26,17 +26,17 @@ export const Breadcrumb: React.FC<Props> = ({
   ];
   const triangleTailStyle = height
     ? {
-        borderTopWidth: height / 2.0,
-        borderBottomWidth: height / 2.0,
-        borderLeftWidth: height / 2.0,
-      }
+      borderTopWidth: height / 2.0,
+      borderBottomWidth: height / 2.0,
+      borderLeftWidth: height / 2.0,
+    }
     : {};
   const triangleHeadStyle = height
     ? {
-        borderTopWidth: height / 2.0,
-        borderBottomWidth: height / 2.0,
-        borderLeftWidth: height / 2.0,
-      }
+      borderTopWidth: height / 2.0,
+      borderBottomWidth: height / 2.0,
+      borderLeftWidth: height / 2.0,
+    }
     : {};
 
   return (
