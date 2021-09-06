@@ -1,8 +1,8 @@
 import firebase from 'firebase';
-import * as GoogleAuthentication from 'expo-google-app-auth';
-import * as Facebook from 'expo-facebook';
 import { ENV } from '../environments';
-import { Provider } from '../types/Providertype';
+import { HOUSEHOLD_ACCOUNTS_ROUTE, NavigationConst } from '../navigation/constant';
+import { Item, RegusterAccountItemFormData } from '../screens/RegisterAccountItemScreen';
+import { User } from '../types/user';
 
 const firebaseConfig = {
   apiKey: ENV.firebase_api_key,
@@ -17,82 +17,49 @@ if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig);
 }
 
-export const signin = (provider: Provider): void => {
-  switch (provider) {
-  case 'facebook':
-    authFacebook().then(async (res) => {
-      if (!res) return;
-      await userCreatedCheck(res);
-    });
-    break;
-  case 'google':
-    googleAuth().then(async (res) => {
-      if (!res) return;
-      await userCreatedCheck(res);
-    });
-    break;
+export const saveItems = async (
+  req: RegusterAccountItemFormData,
+  user?: User | null,
+): Promise<NavigationConst | void> => {
+  const db = firebase.firestore();
+  const batch = db.batch();
+  const date = new Date();
+  const currentTime = date.getTime();
+  if (!user) {
+    alert('家計簿項目の登録エラー');
+    return;
   }
-};
-
-export const signup = (provider: Provider): void => {
-  switch (provider) {
-  case 'facebook':
-    authFacebook().then(async (res): Promise<void> => {
-      if (!res) return;
-      await userCreate(res);
-    });
-    break;
-  case 'google':
-    googleAuth().then(async (res): Promise<void> => {
-      if (!res) return;
-      await userCreate(res);
-    });
-    break;
-  }
-};
-
-const googleAuth = async () => {
-  return await GoogleAuthentication.logInAsync({
-    androidClientId: ENV.google_android_client_id,
-    iosClientId: ENV.google_ios_client_id,
-    scopes: ['profile', 'email'],
-  })
-    .then((result) => {
-      if (result.type === 'success') {
-        const { idToken, accessToken } = result;
-        const credential = firebase.auth.GoogleAuthProvider.credential(idToken, accessToken);
-        return firebase.auth().signInWithCredential(credential);
-      }
-      return null;
-    })
-    .catch((e) => {
-      alert('エラーです');
-      return Promise.reject({ error: e });
-    });
-};
-
-const authFacebook = async () => {
+  const uid = user.uid;
   try {
-    await Facebook.initializeAsync({
-      appId: ENV.facebook_app_id,
+    const itemReferece = await db.collection('users').doc(uid).collection('items');
+    req.items.forEach(async (doc: Item) => {
+      if (!doc.item_id) {
+        batch.set(itemReferece.doc(), {
+          name: doc.item,
+          createdAt: currentTime,
+          updatedAt: currentTime,
+        });
+      } else {
+        const itemDoc = await itemReferece.doc(doc.item_id);
+        batch.update(itemDoc, {
+          name: doc.item,
+          createdAt: currentTime,
+          updatedAt: currentTime,
+        });
+      }
     });
-    const res = await Facebook.logInWithReadPermissionsAsync({
-      permissions: ['public_profile'],
-    });
-    if (res.type === 'success') {
-      const credential = firebase.auth.FacebookAuthProvider.credential(res.token);
-
-      const userCredential = await firebase.auth().signInWithCredential(credential);
-      return userCredential;
-    } else {
-      return null;
-    }
+    await batch.commit();
+    alert('家計簿項目の登録完了');
+    return HOUSEHOLD_ACCOUNTS_ROUTE;
   } catch (e) {
-    alert('エラーです');
-    return Promise.reject({ error: e });
+    console.error('error', e);
+    alert('家計簿項目の登録エラー');
   }
 };
-async function userCreatedCheck(res: firebase.auth.UserCredential) {
+
+export async function userCreatedCheck(
+  res: firebase.auth.UserCredential,
+): Promise<firebase.firestore.DocumentData | void> {
   const user = res.user;
   try {
     const userDoc = user
@@ -102,19 +69,20 @@ async function userCreatedCheck(res: firebase.auth.UserCredential) {
       alert('ユーザ登録が済んでいません');
     } else {
       alert('ユーザログイン');
+      return userDoc.data();
     }
   } catch (e) {
     alert('エラーです');
   }
 }
 
-async function userCreate(res: firebase.auth.UserCredential) {
+export async function userCreate(
+  res: firebase.auth.UserCredential,
+): Promise<firebase.firestore.DocumentData | void> {
   const user = res.user;
   if (!user) return;
   try {
-    const userDoc = user
-      ? await firebase.firestore().collection('users').doc(user.uid).get()
-      : null;
+    let userDoc = user ? await firebase.firestore().collection('users').doc(user.uid).get() : null;
     if (user && (!userDoc || !userDoc.exists)) {
       await firebase
         .firestore()
@@ -129,7 +97,10 @@ async function userCreate(res: firebase.auth.UserCredential) {
           createdAt: Date.now(),
           updatedAt: Date.now(),
         });
+      userDoc = await firebase.firestore().collection('users').doc(user.uid).get();
+      const userData = userDoc.data();
       alert('ユーザ登録に成功しました');
+      return userData;
     } else {
       alert('ユーザ登録が済みです');
     }

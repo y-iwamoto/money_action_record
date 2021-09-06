@@ -1,33 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { BaseSyntheticEvent } from 'react';
-import { TouchableOpacity, Text, StyleSheet, View } from 'react-native';
+import { TouchableOpacity, Image, StyleSheet } from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 type Props = {
-  label: string;
   // eslint-disable-next-line @typescript-eslint/ban-types
   action: ((e?: BaseSyntheticEvent<object, any, any> | undefined) => Promise<void>) | (() => void);
 };
 
-export const PrimaryButton: React.FC<Props> = ({ label, action }: Props) => {
+export const DeleteButton: React.FC<Props> = ({ action }: Props) => {
   return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress={action}>
-        <Text style={styles.text}>{label}</Text>
-      </TouchableOpacity>
-    </View>
+    <TouchableOpacity onPress={action}>
+      <Image source={require('../../../../assets/trash.png')} style={styles.image} />
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#647ACB',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-  },
   text: {
     color: '#ffffff',
     paddingVertical: hp('2%'),
@@ -35,5 +26,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp('8%'),
     textAlign: 'center',
     fontSize: wp('5%'),
+  },
+  image: {
+    width: wp('5%'),
+    height: hp('3%'),
   },
 });

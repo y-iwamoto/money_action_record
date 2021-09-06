@@ -6,13 +6,16 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 
-export const BreadcrumbSection: React.FC = () => {
+type Props = {
+  flowDepth: number;
+};
+export const BreadcrumbSection: React.FC<Props> = ({ flowDepth }: Props) => {
   return (
     <View style={styles.container}>
       <Breadcrumb
         entities={['会員登録', '家計簿項目登録', '利用開始']}
         isTouchable={false}
-        flowDepth={0}
+        flowDepth={flowDepth}
         height={30}
         borderRadius={5}
       />
