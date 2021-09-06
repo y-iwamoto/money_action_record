@@ -4,10 +4,12 @@ import * as Facebook from 'expo-facebook';
 import { ENV } from '../environments';
 import { Provider } from '../types/Providertype';
 import {
+  HOUSEHOLD_ACCOUNTS_ROUTE,
   NavigationConst,
   REGISTER_ACCOUNT_ITEM_ROUTE,
   SIGN_UP_ROUTE,
 } from '../navigation/constant';
+import { Item, RegusterAccountItemFormData } from '../screens/RegisterAccountItemScreen';
 
 const firebaseConfig = {
   apiKey: ENV.firebase_api_key,
@@ -53,6 +55,41 @@ export const signup = async (provider: Provider): Promise<NavigationConst> => {
         await userCreate(res);
       });
       return REGISTER_ACCOUNT_ITEM_ROUTE;
+  }
+};
+
+export const saveItems = async (
+  req: RegusterAccountItemFormData,
+): Promise<NavigationConst | void> => {
+  const db = firebase.firestore();
+  const batch = db.batch();
+  const date = new Date();
+  const currentTime = date.getTime();
+  const uid = 'test';
+  try {
+    const itemReferece = await db.collection('users').doc(uid).collection('items');
+    req.items.forEach(async (doc: Item) => {
+      if (!doc.item_id) {
+        batch.set(itemReferece.doc(), {
+          name: doc.item,
+          createdAt: currentTime,
+          updatedAt: currentTime,
+        });
+      } else {
+        const itemDoc = await itemReferece.doc(doc.item_id);
+        batch.update(itemDoc, {
+          name: doc.item,
+          createdAt: currentTime,
+          updatedAt: currentTime,
+        });
+      }
+    });
+    await batch.commit();
+    alert('家計簿項目の登録完了');
+    return HOUSEHOLD_ACCOUNTS_ROUTE;
+  } catch (e) {
+    console.error('error', e);
+    alert('家計簿項目の登録エラー');
   }
 };
 
