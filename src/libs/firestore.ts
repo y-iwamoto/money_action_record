@@ -2,6 +2,7 @@ import firebase from 'firebase';
 import { ENV } from '../environments';
 import { HOUSEHOLD_ACCOUNTS_ROUTE, NavigationConst } from '../navigation/constant';
 import { Item, RegusterAccountItemFormData } from '../screens/RegisterAccountItemScreen';
+import { Expense, initialExpense } from '../types/expense';
 import { User } from '../types/user';
 
 const firebaseConfig = {
@@ -54,6 +55,96 @@ export const saveItems = async (
   } catch (e) {
     console.error('error', e);
     alert('家計簿項目の登録エラー');
+  }
+};
+
+export const fetchItems = async (user: User) => {
+  const db = firebase.firestore();
+  const query = user ? await db.collection('users').doc(user.uid).collection('items').orderBy('createdAt', 'desc') : null;
+  if (!query) return;
+  const querySnapshot = await query.get();
+  const items = await querySnapshot.docs.map(doc => {
+    return doc.data();
+  });
+  return items;
+};
+
+export const fetchEachExpenses:Promise<Array<Expense[]> | undefined> = async (user: User, daysArray: Array<string>, itemsArray: Array<Item>) => {
+  const db = firebase.firestore();
+  try {
+    const daysMap = await Promise.all(daysArray.map(async day => {
+      const itemMap = await Promise.all(itemsArray.map(async item => {
+        const querySnapshot = user ? await db.collection('users').doc(user.uid).collection('items').doc(item.item_id).collection('expenses').where('date', '==', day).where('item_id', '==', item.item_id).get() : null;
+        let expense: Expense = initialExpense;
+        if (querySnapshot) {
+          querySnapshot.forEach(async doc => {
+            if (doc.data().item_id === item.item_id && doc.data().date === day ) {
+              expense = doc.data();
+            }
+          });
+        }
+        return (expense && expense.amount) ? expense : Object.assign({
+          expense_id: '',
+          uid: '',
+          item_id: '',
+          amount: 0,
+          date: '',
+          createdAt: firebase.firestore.Timestamp.now(),
+          updatedAt: firebase.firestore.Timestamp.now(),
+        }, 
+        {item_id: item.item_id,
+          date: day, uid: user.uid,
+          createdAt: Date.now(),
+          updatedAt: Date.now(),
+        });
+      }));
+      return itemMap;
+    }));
+    return daysMap;
+  
+  } catch (e) {
+    alert('エラーです');
+  }
+
+};
+
+export const saveExpense: Promise<boolean> = async (request) => {
+  const db = firebase.firestore();
+  try {
+    const rec = await db.collection('users').doc(request.uid).collection('items').doc(request.item_id)
+      .collection('expenses');
+    if (request.expense_id) {
+      await rec.doc(request.expense_id).set(request);
+      alert('更新しました');
+      return true;
+
+    } else {
+      await rec.doc().set(request);
+      await saveExpenseId(request);
+      alert('登録しました');
+      return true;
+
+    }
+  } catch (e) {
+    alert('エラーです');
+    return false;
+  }
+
+};
+export const saveExpenseId = async (request) => {
+  const db = firebase.firestore();
+  try {
+    const querySnapshot = await db.collection('users').doc(request.uid).collection('items').doc(request.item_id).collection('expenses').where('date', '==', request.date).where('item_id', '==', request.item_id).get();
+    for(const doc of querySnapshot.docs) {
+      if (!doc.data().expense_id) {
+        await db.collection('users').doc(request.uid).collection('items').doc(request.item_id).collection('expenses').doc(doc.id).update({
+          expense_id: doc.id,
+        });
+      }
+    }
+
+  } catch (e) {
+    alert('エラーです');
   }
 };
 
