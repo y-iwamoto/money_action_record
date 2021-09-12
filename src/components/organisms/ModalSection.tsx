@@ -1,37 +1,36 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Input } from '../atoms/Form/Input';
-import { Modal } from '../atoms/Form/Modal';
+import { Modal, ModalBody, ModalContainer, ModalFooter, ModalHeader } from '../atoms/Form/Modal';
 import { NoteText } from '../atoms/Text/NoteText';
 import { SmallButtons } from '../molecules/SmallButtons';
 
 type ModalProps = {
-    isModalVisible: boolean;
-    handleDecline: () => void;
-    handleSaveAccount: () => void;
-  };
-  
+  isModalVisible: boolean;
+  handleDecline: () => void;
+  handleSaveAccount: () => void;
+};
+
 export const ModalSection: React.FC<ModalProps> = ({
   isModalVisible,
   handleDecline,
-  handleSaveAccount
+  handleSaveAccount,
 }: ModalProps) => {
-  return(
+  return (
     <Modal isVisible={isModalVisible}>
-      <Modal.Container>
+      <ModalContainer>
         <View style={styles.modal}>
-          <Modal.Header title="家計簿に金額を設定" />
-          <Modal.Body>
+          <ModalHeader title="家計簿に金額を設定" />
+          <ModalBody>
             <NoteText label="家計簿に金額を設定してください" />
-            <Input fieldName='amount'/>
-          </Modal.Body>
-          <Modal.Footer>
+            <Input fieldName="amount" />
+          </ModalBody>
+          <ModalFooter>
             <SmallButtons handleDecline={handleDecline} handleSaveAccount={handleSaveAccount} />
-          </Modal.Footer>
+          </ModalFooter>
         </View>
-      </Modal.Container>
+      </ModalContainer>
     </Modal>
-
   );
 };
 
@@ -74,4 +73,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-  

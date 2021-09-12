@@ -11,8 +11,8 @@ import { ExpensesContext } from './src/contexts/expenseContext';
 
 const App: React.FC = () =>  {
   const [user, setUser] = useState<User | null>();
-  const [items, setItems] = useState<Item[] | []>();
-  const [expenses, setExpenses] = useState<Expense[] | []>();
+  const [items, setItems] = useState<Item[]>([]);
+  const [expenses, setExpenses] = useState<Expense[][]>([]);
   return (
     <UserContext.Provider value={{ user, setUser }}>
       <ItemsContext.Provider value={{items, setItems}}>

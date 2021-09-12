@@ -1,8 +1,8 @@
-import { useIsFocused, useNavigation, useRoute } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import React, { useContext, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 
-import { View, StyleSheet, Text, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { HouseholdAccountSection } from '../components/organisms/HouseholdAccountSection';
 import { ExpensesContext } from '../contexts/expenseContext';
 import { ItemsContext } from '../contexts/itemContext';
@@ -18,12 +18,13 @@ export const HouseholdAccountScreen: React.FC = () => {
   const { expenses, setExpenses } = useContext(ExpensesContext);
   const isFocused = useIsFocused();
 
-  const [ load, setLoad ] = useState(false);
+  const [load, setLoad] = useState(false);
 
   const navigation = useNavigation<AuthScreenNavigationProp>();
   const onPressButton = (expense: Expense) => navigation.navigate(MODAL_ROUTE, expense);
+
   useEffect(() => {
-    const isMounted = true;
+    let isMounted = true;
     const f = async () => {
       setLoad(true);
       if (!user) {
@@ -33,27 +34,40 @@ export const HouseholdAccountScreen: React.FC = () => {
       }
       if (isMounted) {
         const items = await fetchItems(user);
-        setItems(items);
-        const daysYMDArray = [...Array(7)].map((_, i) => dayjs().add(i, 'days').format('YYYY/MM/DD'));
-        const expenses = await fetchEachExpenses(user, daysYMDArray, items);
+        const itemsArray = items ? items : [];
+        setItems(itemsArray);
+        const daysYMDArray = [...Array(7)].map((_, i) =>
+          dayjs().add(i, 'days').format('YYYY/MM/DD'),
+        );
+        const expenses = await fetchEachExpenses(user, daysYMDArray, itemsArray);
         setExpenses(expenses);
         setLoad(false);
       }
-      return () => { isMounted = false; };
-    };  
+      return () => {
+        isMounted = false;
+      };
+    };
     if (isFocused) {
       f();
     }
-  },[isFocused]);
+  }, [isFocused, navigation, setExpenses, setItems, user]);
 
-  const component = (!load) ? (<View style={styles.container}><HouseholdAccountSection onPressButton={onPressButton} items={items} expenses={expenses}/></View>) : (<View style={styles.container}><ActivityIndicator size="large" /></View>);
+  const component = !load ? (
+    <View style={styles.container}>
+      <HouseholdAccountSection onPressButton={onPressButton} items={items} expenses={expenses} />
+    </View>
+  ) : (
+    <View style={styles.container}>
+      <ActivityIndicator size="large" />
+    </View>
+  );
 
   return component;
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
-    justifyContent: 'center'
-  }
+    flex: 1,
+    justifyContent: 'center',
+  },
 });

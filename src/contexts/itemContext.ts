@@ -3,8 +3,8 @@ import { createContext } from 'react';
 import { Item } from '../types/item';
 
 type ItemsContextValue = {
-    items?: Item[];
-    setItems: (items?: Item[]) => void;
+  items: Item[];
+  setItems: (items: Item[]) => void;
 };
 
 export const ItemsContext = createContext<ItemsContextValue>({

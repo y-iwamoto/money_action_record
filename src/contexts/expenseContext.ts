@@ -3,8 +3,8 @@ import { createContext } from 'react';
 import { Expense } from '../types/expense';
 
 type ExpensesContextValue = {
-    expenses?: Expense[];
-    setExpenses: (items: Expense[]) => void;
+  expenses: Expense[][];
+  setExpenses: (expenses: Expense[][]) => void;
 };
 
 export const ExpensesContext = createContext<ExpensesContextValue>({

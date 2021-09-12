@@ -36,12 +36,12 @@ export const Inputs: React.FC = () => {
                   <DeleteButton action={() => remove(index)} />
                 </View>
               )}
-              name={`items[${index}].item`}
+              name={`items[${index}].name`}
               rules={{ required: 'この項目は必須項目です' }}
             />
 
             {errors && errors.items && errors.items[index] && (
-              <Text style={styles.error}>{errors.items[index].item.message}</Text>
+              <Text style={styles.error}>{errors.items[index].name.message}</Text>
             )}
           </View>
         ))}

@@ -1,14 +1,14 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import RNModal from 'react-native-modal';
-import {
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+
 type ModalProps = {
   isVisible: boolean;
   children: React.ReactNode;
   [x: string]: unknown;
 };
+
 export const Modal: React.FC<ModalProps> = ({
   isVisible = false,
   children,
@@ -26,22 +26,22 @@ export const Modal: React.FC<ModalProps> = ({
     </RNModal>
   );
 };
-
-const ModalContainer = ({ children }: { children: React.ReactNode }) => (
+// eslint-disable-next-line
+export const ModalContainer = ({ children }: { children: React.ReactNode }) => (
   <View style={styles.container}>{children}</View>
 );
-
-const ModalHeader = ({ title }: { title: string }) => (
+// eslint-disable-next-line
+export const ModalHeader = ({ title }: { title: string }) => (
   <View style={styles.header}>
     <Text style={styles.text}>{title}</Text>
   </View>
 );
-
-const ModalBody = ({ children }: { children?: React.ReactNode }) => (
+// eslint-disable-next-line
+export const ModalBody = ({ children }: { children?: React.ReactNode }) => (
   <View style={styles.body}>{children}</View>
 );
-
-const ModalFooter = ({ children }: { children?: React.ReactNode }) => (
+// eslint-disable-next-line
+export const ModalFooter = ({ children }: { children?: React.ReactNode }) => (
   <View style={styles.footer}>{children}</View>
 );
 
@@ -75,8 +75,3 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
 });
-
-Modal.Header = ModalHeader;
-Modal.Container = ModalContainer;
-Modal.Body = ModalBody;
-Modal.Footer = ModalFooter;

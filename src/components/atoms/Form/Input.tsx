@@ -8,8 +8,8 @@ import {
 
 type Props = {
   fieldName: string;
-}
-export const Input: React.FC<Props> = ({fieldName}: Props) => {
+};
+export const Input: React.FC<Props> = ({ fieldName }: Props) => {
   const {
     control,
     formState: { errors },
