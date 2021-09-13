@@ -10,11 +10,13 @@ type Props = {
   onPressButton: (expense: Expense) => void;
   items: Item[];
   expenses: Array<Expense[]>;
+  todayDiff: number;
 };
 export const HouseholdAccountSection: React.FC<Props> = ({
   onPressButton,
   items,
   expenses,
+  todayDiff,
 }: Props) => {
   const elementButton = (expense: Expense) => {
     return (
@@ -29,7 +31,17 @@ export const HouseholdAccountSection: React.FC<Props> = ({
   const daysFlexArray = [...Array(itemsArray.length)].map(() => 1);
   const [tableHead] = useState(itemsArray);
 
-  const daysArray = [...Array(7)].map((_, i) => dayjs().add(i, 'days').format('MM/DD'));
+  const daysArray = [...Array(7)].map((_, i) => {
+    if (todayDiff > -1) {
+      return dayjs()
+        .subtract(i - todayDiff, 'days')
+        .format('MM/DD');
+    } else {
+      return dayjs()
+        .add(i + todayDiff, 'days')
+        .format('MM/DD');
+    }
+  });
   const daysHeightArray = [...Array(daysArray.length)].map(() => 28);
   const [tableTitle] = useState(daysArray);
 

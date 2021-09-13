@@ -50,6 +50,7 @@ export const saveItems = async (
       }
     });
     await batch.commit();
+    await saveItemId(user);
     alert('家計簿項目の登録完了');
     return HOUSEHOLD_ACCOUNTS_ROUTE;
   } catch (e) {
@@ -68,6 +69,22 @@ export const fetchItems = async (user: User): Promise<Item[] | void> => {
     return doc.data() as Item;
   });
   return items;
+};
+
+export const saveItemId = async (user: User): Promise<void> => {
+  const db = firebase.firestore();
+  try {
+    const querySnapshot = await db.collection('users').doc(user.uid).collection('items').get();
+    for (const doc of querySnapshot.docs) {
+      if (!doc.data().item_id) {
+        await db.collection('users').doc(user.uid).collection('items').doc(doc.id).update({
+          item_id: doc.id,
+        });
+      }
+    }
+  } catch (e) {
+    alert('エラーです');
+  }
 };
 
 export const fetchEachExpenses = async (
@@ -128,7 +145,7 @@ export const fetchEachExpenses = async (
     return daysMap;
   } catch (e) {
     alert('エラーです');
-    return [];
+    return [[]];
   }
 };
 

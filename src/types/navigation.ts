@@ -7,11 +7,12 @@ import {
   MODAL_ROUTE,
 } from '../navigation/constant';
 import { Expense } from './expense';
+import { Item } from './item';
 
 export type RootStackParamList = {
   [LOGIN_ROUTE]: undefined;
   [SIGN_UP_ROUTE]: undefined;
-  [REGISTER_ACCOUNT_ITEM_ROUTE]: undefined;
+  [REGISTER_ACCOUNT_ITEM_ROUTE]: undefined | Item[];
   [HOUSEHOLD_ACCOUNTS_ROUTE]: undefined;
   [MODAL_ROUTE]: Expense;
 };

@@ -8,6 +8,6 @@ type ExpensesContextValue = {
 };
 
 export const ExpensesContext = createContext<ExpensesContextValue>({
-  expenses: [],
+  expenses: [[]],
   setExpenses: () => {},
 });
