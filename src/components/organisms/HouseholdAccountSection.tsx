@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 import { View, StyleSheet, ScrollView, Text, TouchableOpacity } from 'react-native';
 import { Table, TableWrapper, Row, Rows, Col } from 'react-native-table-component';
@@ -28,7 +29,26 @@ export const HouseholdAccountSection: React.FC<Props> = ({
 
   const itemsArray = items && items.length !== 0 ? items.map((item) => item['name']) : [];
   itemsArray.unshift('');
-  const daysFlexArray = [...Array(itemsArray.length)].map(() => 1);
+  let width = 0;
+  switch (itemsArray.length) {
+    case 1:
+      width = wp('50%');
+      break;
+    case 2:
+      width = wp('45%');
+      break;
+    case 3:
+      width = wp('30%');
+      break;
+    case 4:
+      width = wp('22%');
+      break;
+    default:
+      width = wp('20%');
+      break;
+  }
+  const itemsWidthArray = [...Array(itemsArray.length)].map(() => width);
+  const valuesWidthArray = [...Array(itemsArray.length - 1)].map(() => width);
   const [tableHead] = useState(itemsArray);
 
   const daysArray = [...Array(7)].map((_, i) => {
@@ -53,29 +73,42 @@ export const HouseholdAccountSection: React.FC<Props> = ({
 
   return (
     <View style={styles.container}>
-      <Table borderStyle={{ borderWidth: 1 }}>
-        <Row data={tableHead} flexArr={daysFlexArray} style={styles.head} textStyle={styles.text} />
-        <ScrollView>
-          <TableWrapper borderStyle={{ borderWidth: 1 }} style={styles.wrapper}>
-            <Col
-              data={tableTitle}
-              style={styles.title}
-              heightArr={daysHeightArray}
-              textStyle={styles.text}
-            />
-            <Rows data={tableData} flexArr={[1, 1, 1]} style={styles.row} textStyle={styles.text} />
-          </TableWrapper>
-        </ScrollView>
-      </Table>
+      <ScrollView horizontal={true}>
+        <Table borderStyle={{ borderWidth: 1 }}>
+          <Row
+            data={tableHead}
+            widthArr={itemsWidthArray}
+            style={styles.head}
+            textStyle={styles.text}
+          />
+          <ScrollView>
+            <TableWrapper borderStyle={{ borderWidth: 1 }} style={styles.wrapper}>
+              <Col
+                data={tableTitle}
+                style={styles.title}
+                heightArr={daysHeightArray}
+                textStyle={styles.text}
+                width={width}
+              />
+              <Rows
+                data={tableData}
+                widthArr={valuesWidthArray}
+                style={styles.row}
+                textStyle={styles.text}
+              />
+            </TableWrapper>
+          </ScrollView>
+        </Table>
+      </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, paddingTop: 30, backgroundColor: '#fff' },
+  container: { padding: 20, paddingTop: 30, backgroundColor: '#fff' },
   head: { height: 40, backgroundColor: '#f1f8ff' },
   wrapper: { flexDirection: 'row' },
-  title: { flex: 0.75, backgroundColor: '#f6f8fa' },
+  title: { backgroundColor: '#f6f8fa' },
   row: { height: 28 },
   text: { textAlign: 'center' },
 });

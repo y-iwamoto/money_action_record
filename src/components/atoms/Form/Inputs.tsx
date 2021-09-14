@@ -22,7 +22,7 @@ export const Inputs: React.FC = () => {
     <View style={styles.container}>
       <ScrollView>
         {fields.map((item, index) => (
-          <View key={index}>
+          <View key={item.id}>
             <Controller
               control={control}
               render={({ field: { onChange, onBlur, value } }) => (

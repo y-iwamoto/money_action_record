@@ -44,7 +44,6 @@ export const HouseholdAccountScreen: React.FC = () => {
       if (isMounted) {
         const items = await fetchItems(user);
         const itemsArray = items ? items : [];
-        console.warn('itemsArray', itemsArray);
         setItems(itemsArray);
         const daysYMDArray = [...Array(7)].map((_, i) => {
           if (todayDiff > -1) {
@@ -58,7 +57,6 @@ export const HouseholdAccountScreen: React.FC = () => {
           }
         });
         const expenses = await fetchEachExpenses(user, daysYMDArray, itemsArray);
-        console.warn('expenses', expenses);
         setExpenses(expenses);
         setLoad(false);
       }
@@ -72,7 +70,7 @@ export const HouseholdAccountScreen: React.FC = () => {
   }, [isFocused, navigation, setExpenses, setItems, user, todayDiff]);
 
   const component = !load ? (
-    <View style={styles.container}>
+    <View>
       <SearchSection
         onItemButton={onItemButton}
         onMinnusDayButton={() => onMinnusDayButton(todayDiff)}

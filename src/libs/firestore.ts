@@ -21,6 +21,7 @@ if (firebase.apps.length === 0) {
 export const saveItems = async (
   req: { items: Item[] },
   user?: User | null,
+  isUpdate?: boolean,
 ): Promise<NavigationConst | void> => {
   const db = firebase.firestore();
   const batch = db.batch();
@@ -50,8 +51,21 @@ export const saveItems = async (
       }
     });
     await batch.commit();
-    await saveItemId(user);
-    alert('家計簿項目の登録完了');
+    const newItemIds = await saveItemId(user);
+    if (isUpdate) {
+      const newBatch = db.batch();
+      const itemAll = await itemReferece.get();
+      itemAll.docs.forEach((doc) => {
+        if (
+          !req.items.some((item) => item.item_id === doc.id) &&
+          !newItemIds.some((item_id) => item_id === doc.id)
+        ) {
+          newBatch.delete(doc.ref);
+        }
+      });
+      await newBatch.commit();
+    }
+    alert('家計簿項目の設定完了');
     return HOUSEHOLD_ACCOUNTS_ROUTE;
   } catch (e) {
     alert('家計簿項目の登録エラー');
@@ -71,8 +85,9 @@ export const fetchItems = async (user: User): Promise<Item[] | void> => {
   return items;
 };
 
-export const saveItemId = async (user: User): Promise<void> => {
+export const saveItemId = async (user: User): Promise<string[]> => {
   const db = firebase.firestore();
+  const newItemIds = [];
   try {
     const querySnapshot = await db.collection('users').doc(user.uid).collection('items').get();
     for (const doc of querySnapshot.docs) {
@@ -80,10 +95,13 @@ export const saveItemId = async (user: User): Promise<void> => {
         await db.collection('users').doc(user.uid).collection('items').doc(doc.id).update({
           item_id: doc.id,
         });
+        newItemIds.push(doc.id);
       }
     }
+    return newItemIds;
   } catch (e) {
     alert('エラーです');
+    return [];
   }
 };
 
