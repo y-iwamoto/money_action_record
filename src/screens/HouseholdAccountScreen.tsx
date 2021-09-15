@@ -35,16 +35,16 @@ export const HouseholdAccountScreen: React.FC = () => {
   useEffect(() => {
     let isMounted = true;
     const f = async () => {
-      setLoad(true);
-      if (!user) {
-        setLoad(false);
-        navigation.navigate(LOGIN_ROUTE);
-        return;
-      }
       if (isMounted) {
+        if (isMounted) setLoad(true);
+        if (!user) {
+          if (isMounted) setLoad(false);
+          navigation.navigate(LOGIN_ROUTE);
+          return;
+        }
         const items = await fetchItems(user);
         const itemsArray = items ? items : [];
-        setItems(itemsArray);
+        if (isMounted) setItems(itemsArray);
         const daysYMDArray = [...Array(7)].map((_, i) => {
           if (todayDiff > -1) {
             return dayjs()
@@ -57,16 +57,18 @@ export const HouseholdAccountScreen: React.FC = () => {
           }
         });
         const expenses = await fetchEachExpenses(user, daysYMDArray, itemsArray);
-        setExpenses(expenses);
-        setLoad(false);
+        if (isMounted) {
+          setExpenses(expenses);
+          setLoad(false);
+        }
       }
-      return () => {
-        isMounted = false;
-      };
     };
     if (isFocused) {
       f();
     }
+    return () => {
+      isMounted = false;
+    };
   }, [isFocused, navigation, setExpenses, setItems, user, todayDiff]);
 
   const component = !load ? (
@@ -86,7 +88,7 @@ export const HouseholdAccountScreen: React.FC = () => {
     </View>
   ) : (
     <View style={styles.container}>
-      <ActivityIndicator size="large" />
+      <ActivityIndicator size="large" color="#7CC4FA" />
     </View>
   );
 
@@ -97,5 +99,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
+    backgroundColor: '#fff',
   },
 });

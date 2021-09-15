@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { LogBox } from 'react-native';
 import StorybookUI from './storybook';
 import { ENV } from './src/environments';
 import { AppNavigator } from './src/navigation/AppNavigator';
@@ -10,6 +11,7 @@ import { Expense } from './src/types/expense';
 import { ExpensesContext } from './src/contexts/expenseContext';
 
 const App: React.FC = () =>  {
+  LogBox.ignoreLogs(['Setting a timer']);
   const [user, setUser] = useState<User | null>();
   const [items, setItems] = useState<Item[]>([]);
   const [expenses, setExpenses] = useState<Expense[][]>([]);
