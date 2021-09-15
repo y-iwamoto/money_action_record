@@ -6,7 +6,10 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 
-export const Input: React.FC = () => {
+type Props = {
+  fieldName: string;
+};
+export const Input: React.FC<Props> = ({ fieldName }: Props) => {
   const {
     control,
     formState: { errors },
@@ -18,11 +21,11 @@ export const Input: React.FC = () => {
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput style={styles.input} onBlur={onBlur} onChangeText={onChange} value={value} />
         )}
-        name="item"
+        name={fieldName}
         rules={{ required: 'この項目は必須項目です' }}
         defaultValue=""
       />
-      {errors && errors.item && <Text style={styles.error}>{errors.item.message}</Text>}
+      {errors && errors[fieldName] && <Text style={styles.error}>{errors[fieldName].message}</Text>}
     </View>
   );
 };

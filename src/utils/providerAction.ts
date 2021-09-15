@@ -18,7 +18,6 @@ export const googleAuth = async (): Promise<firebase.auth.UserCredential | null>
       return null;
     })
     .catch((e) => {
-      alert('エラーです');
       return Promise.reject({ error: e });
     });
 };

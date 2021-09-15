@@ -56,5 +56,4 @@ function getEnvVars() {
     }
   }
 }
-
 export const ENV = getEnvVars();

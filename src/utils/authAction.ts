@@ -1,6 +1,7 @@
 import firebase from 'firebase';
 import { userCreate, userCreatedCheck } from '../libs/firestore';
 import {
+  HOUSEHOLD_ACCOUNTS_ROUTE,
   LOGIN_ROUTE,
   NavigationConst,
   REGISTER_ACCOUNT_ITEM_ROUTE,
@@ -24,14 +25,14 @@ export const signin = async (
           return await userCreatedCheck(res);
         });
         if (!user) return { transfer: LOGIN_ROUTE, user: {} };
-        return { transfer: REGISTER_ACCOUNT_ITEM_ROUTE, user };
+        return { transfer: HOUSEHOLD_ACCOUNTS_ROUTE, user };
       case 'google':
         user = await googleAuth().then(async (res) => {
           if (!res) return;
           return await userCreatedCheck(res);
         });
         if (!user) return { transfer: LOGIN_ROUTE, user: {} };
-        return { transfer: REGISTER_ACCOUNT_ITEM_ROUTE, user };
+        return { transfer: HOUSEHOLD_ACCOUNTS_ROUTE, user };
     }
   } catch (e) {
     alert('ログイン処理に失敗しました');

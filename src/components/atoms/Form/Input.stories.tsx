@@ -8,6 +8,6 @@ storiesOf('Atoms/Form/Input', module)
   .addDecorator((getStory) => <CenterView>{getStory()}</CenterView>)
   .add('Input', () => (
     <FormContext>
-      <Input />
+      <Input fieldName="amount" />
     </FormContext>
   ));

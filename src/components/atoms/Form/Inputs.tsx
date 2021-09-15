@@ -22,7 +22,7 @@ export const Inputs: React.FC = () => {
     <View style={styles.container}>
       <ScrollView>
         {fields.map((item, index) => (
-          <View key={index}>
+          <View key={item.id}>
             <Controller
               control={control}
               render={({ field: { onChange, onBlur, value } }) => (
@@ -36,12 +36,12 @@ export const Inputs: React.FC = () => {
                   <DeleteButton action={() => remove(index)} />
                 </View>
               )}
-              name={`items[${index}].item`}
+              name={`items[${index}].name`}
               rules={{ required: 'この項目は必須項目です' }}
             />
 
             {errors && errors.items && errors.items[index] && (
-              <Text style={styles.error}>{errors.items[index].item.message}</Text>
+              <Text style={styles.error}>{errors.items[index].name.message}</Text>
             )}
           </View>
         ))}

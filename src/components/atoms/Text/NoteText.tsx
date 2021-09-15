@@ -19,7 +19,7 @@ export const NoteText: React.FC<Props> = ({ label }: Props) => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: wp('15%'),
+    paddingHorizontal: wp('13%'),
   },
   label: {
     fontSize: wp('3.5%'),
