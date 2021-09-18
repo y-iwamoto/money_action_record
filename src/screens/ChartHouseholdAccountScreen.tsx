@@ -1,8 +1,9 @@
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import React, { useContext, useEffect, useState } from 'react';
-import { View, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, ActivityIndicator, ScrollView } from 'react-native';
 import { ChartHouseholdAccountSection } from '../components/organisms/ChartHouseholdAccountSection';
+import { PieChartSection } from '../components/organisms/PieChartSection';
 import { SearchSection } from '../components/organisms/SearchSection';
 import { ExpensesContext } from '../contexts/expenseContext';
 import { ItemsContext } from '../contexts/itemContext';
@@ -26,6 +27,15 @@ export type ChartData = {
   legend: string[];
 };
 
+export type PieChartData = {
+  name: string;
+  population: number;
+  color: string;
+  strokeWidth: number;
+  legendFontColor: string;
+  legendFontSize: number;
+}[];
+
 export const ChartHouseholdAccountScreen: React.FC = () => {
   const { user } = useContext(UserContext);
   const { items, setItems } = useContext(ItemsContext);
@@ -44,6 +54,7 @@ export const ChartHouseholdAccountScreen: React.FC = () => {
   const [todayDiff, setTodayDiff] = useState(0);
   // New start
   const [chartData, setChartData] = useState<ChartData>();
+  const [pieChartData, setPieChartData] = useState<PieChartData>();
   // New end
 
   useEffect(() => {
@@ -96,6 +107,19 @@ export const ChartHouseholdAccountScreen: React.FC = () => {
             : [];
           const legend = items ? items.map((item) => item.name) : [];
           setChartData({ labels: labels, datasets: datasets, legend: legend });
+
+          const dataAccumulate = data.map((d) => d.reduce((sum, element) => sum + element));
+          const dataAccumulateSets = items
+            ? items.map((item, i) => ({
+                name: item.name,
+                population: dataAccumulate[i],
+                color: COLOR[i],
+                strokeWidth: 2,
+                legendFontColor: '#7F7F7F',
+                legendFontSize: 15,
+              }))
+            : [];
+          setPieChartData(dataAccumulateSets);
           // New end
         }
       }
@@ -107,13 +131,14 @@ export const ChartHouseholdAccountScreen: React.FC = () => {
       isMounted = false;
     };
   }, [isFocused, navigation, setExpenses, setItems, user, todayDiff]);
+
   const component =
-    !chartData || load ? (
+    !chartData || !pieChartData || load ? (
       <View style={styles.container}>
         <ActivityIndicator size="large" color="#7CC4FA" />
       </View>
     ) : (
-      <View style={styles.container}>
+      <ScrollView style={styles.scroll_container}>
         <SearchSection
           onItemButton={onItemButton}
           onMinnusDayButton={() => onMinnusDayButton(todayDiff)}
@@ -121,7 +146,8 @@ export const ChartHouseholdAccountScreen: React.FC = () => {
           todayDiff={todayDiff}
         />
         <ChartHouseholdAccountSection data={chartData} />
-      </View>
+        <PieChartSection data={pieChartData} />
+      </ScrollView>
     );
 
   return component;
@@ -131,6 +157,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
+    backgroundColor: '#fff',
+  },
+  scroll_container: {
     backgroundColor: '#fff',
   },
 });

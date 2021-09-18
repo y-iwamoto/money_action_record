@@ -4,16 +4,18 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { ChartData } from '../../screens/ChartHouseholdAccountScreen';
-import { Line } from '../atoms/Chart/Line';
+import { PieChartData } from '../../screens/ChartHouseholdAccountScreen';
+
+import { Pie } from '../atoms/Chart/Pie';
 
 type Props = {
-  data: ChartData;
+  data: PieChartData;
 };
-export const ChartHouseholdAccountSection: React.FC<Props> = ({ data }: Props) => {
+
+export const PieChartSection: React.FC<Props> = ({ data }: Props) => {
   return (
     <View style={styles.container}>
-      <Line data={data} />
+      <Pie data={data} />
     </View>
   );
 };
@@ -24,7 +26,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
-    marginHorizontal: wp('3%'),
+    marginHorizontal: wp('30%'),
     marginTop: hp('3%'),
   },
 });

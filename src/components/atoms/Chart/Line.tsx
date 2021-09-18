@@ -36,7 +36,6 @@ export const Line: React.FC<Props> = ({ data }: Props) => {
 const styles = StyleSheet.create({
   border: {
     borderWidth: 1,
-    borderColor: 'lightgray',
-    borderRadius: 20,
+    borderColor: '#707070',
   },
 });
