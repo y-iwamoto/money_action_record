@@ -8,7 +8,12 @@ import { ExpensesContext } from '../contexts/expenseContext';
 import { ItemsContext } from '../contexts/itemContext';
 import { UserContext } from '../contexts/userContext';
 import { fetchEachExpenses, fetchItems } from '../libs/firestore';
-import { LOGIN_ROUTE, MODAL_ROUTE, REGISTER_ACCOUNT_ITEM_ROUTE } from '../navigation/constant';
+import {
+  LOGIN_ROUTE,
+  MODAL_ROUTE,
+  REGISTER_ACCOUNT_ITEM_ROUTE,
+  SET_ACCOUNT_ITEM_ROUTE,
+} from '../navigation/constant';
 import { Expense } from '../types/expense';
 import { AuthScreenNavigationProp } from '../types/navigation';
 import { SearchSection } from '../components/organisms/SearchSection';
@@ -24,7 +29,7 @@ export const HouseholdAccountScreen: React.FC = () => {
 
   const navigation = useNavigation<AuthScreenNavigationProp>();
   const onPressButton = (expense: Expense) => navigation.navigate(MODAL_ROUTE, expense);
-  const onItemButton = () => navigation.navigate(REGISTER_ACCOUNT_ITEM_ROUTE, items);
+  const onItemButton = () => navigation.navigate(SET_ACCOUNT_ITEM_ROUTE, items);
   const onMinnusDayButton = (todayDiff: number) => {
     setTodayDiff(todayDiff - 7);
   };
@@ -43,6 +48,10 @@ export const HouseholdAccountScreen: React.FC = () => {
           return;
         }
         const items = await fetchItems(user);
+        if (!items || items.length === 0) {
+          navigation.navigate(REGISTER_ACCOUNT_ITEM_ROUTE);
+          return;
+        }
         const itemsArray = items ? items : [];
         if (isMounted) setItems(itemsArray);
         const daysYMDArray = [...Array(7)].map((_, i) => {

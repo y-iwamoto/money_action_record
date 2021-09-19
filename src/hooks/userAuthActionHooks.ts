@@ -21,10 +21,9 @@ export function userAuthActionHooks(
   setUser: (user: User) => void,
 ) {
   const authAction = (provider: Provider) => {
-    action(provider).then(({ transfer, user }: actionResponse) => {
-      if (!user) return;
+    action(provider).then(async ({ user }: actionResponse) => {
+      if (!user || 0 === Object.keys(user).length) return;
       setUser({ ...user, createdAt: user.createdAt, updatedAt: user.updatedAt });
-      navigation.navigate(transfer);
     });
   };
   const navigationAction = () => {

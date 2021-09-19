@@ -18,6 +18,9 @@ function loadStories() {
   require('../src/components/atoms/Form/Input.stories');
   require('../src/components/atoms/Form/Inputs.stories');
 
+  require('../src/components/atoms/Chart/Line.stories');
+  require('../src/components/atoms/Chart/Pie.stories');
+
   require('../src/components/molecules/Hiro.stories');
   require('../src/components/molecules/ProviderButtons.stories');
   require('../src/components/molecules/Breadcrumb.stories');
@@ -31,6 +34,8 @@ function loadStories() {
   require('../src/components/organisms/HouseholdAccountSection.stories');
   require('../src/components/organisms/ModalSection.stories');
   require('../src/components/organisms/SearchSection.stories');
+  require('../src/components/organisms/ChartHouseholdAccountSection.stories');
+  require('../src/components/organisms/PieChartSection.stories');
 
   require('../src/screens/LoginScreen.stories');
   require('../src/screens/SignUpScreen.stories');
@@ -57,6 +62,9 @@ const stories = [
   '../src/components/atoms/Form/Input.stories',
   '../src/components/atoms/Form/Inputs.stories',
 
+  '../src/components/atoms/Chart/Line.stories',
+  '../src/components/atoms/Chart/Pie.stories',
+
   '../src/components/molecules/Hiro.stories',
   '../src/components/molecules/ProviderButtons.stories',
   '../src/components/molecules/Breadcrumb.stories',
@@ -70,6 +78,8 @@ const stories = [
   '../src/components/organisms/HouseholdAccountSection.stories',
   '../src/components/organisms/ModalSection.stories',
   '../src/components/organisms/SearchSection.stories',
+  '../src/components/organisms/ChartHouseholdAccountSection.stories',
+  '../src/components/organisms/PieChartSection.stories',
 
   '../src/screens/LoginScreen.stories',
   '../src/screens/SignUpScreen.stories',

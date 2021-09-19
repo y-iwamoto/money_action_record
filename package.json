@@ -14,6 +14,7 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
+    "@react-navigation/bottom-tabs": "^6.0.5",
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/stack": "^6.0.7",
     "dayjs": "^1.10.6",
@@ -27,11 +28,13 @@
     "react-dom": "16.13.1",
     "react-hook-form": "^7.14.2",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
+    "react-native-chart-kit": "^6.11.0",
     "react-native-dotenv": "^3.2.0",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "~1.10.2",
     "react-native-modal": "^13.0.0",
     "react-native-responsive-screen": "^1.4.2",
+    "react-native-svg": "^12.1.1",
     "react-native-table-component": "^1.2.1",
     "react-native-web": "~0.13.12"
   },
