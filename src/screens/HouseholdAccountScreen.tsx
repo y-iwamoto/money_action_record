@@ -8,7 +8,12 @@ import { ExpensesContext } from '../contexts/expenseContext';
 import { ItemsContext } from '../contexts/itemContext';
 import { UserContext } from '../contexts/userContext';
 import { fetchEachExpenses, fetchItems } from '../libs/firestore';
-import { LOGIN_ROUTE, MODAL_ROUTE, SET_ACCOUNT_ITEM_ROUTE } from '../navigation/constant';
+import {
+  LOGIN_ROUTE,
+  MODAL_ROUTE,
+  REGISTER_ACCOUNT_ITEM_ROUTE,
+  SET_ACCOUNT_ITEM_ROUTE,
+} from '../navigation/constant';
 import { Expense } from '../types/expense';
 import { AuthScreenNavigationProp } from '../types/navigation';
 import { SearchSection } from '../components/organisms/SearchSection';
@@ -43,7 +48,10 @@ export const HouseholdAccountScreen: React.FC = () => {
           return;
         }
         const items = await fetchItems(user);
-        // TODO: itemsなしだったらRegister画面へ
+        if (!items || items.length === 0) {
+          navigation.navigate(REGISTER_ACCOUNT_ITEM_ROUTE);
+          return;
+        }
         const itemsArray = items ? items : [];
         if (isMounted) setItems(itemsArray);
         const daysYMDArray = [...Array(7)].map((_, i) => {

@@ -5,11 +5,10 @@ import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { HeaderIcon } from '../components/atoms/Header/HeaderIcon';
 import { HeaderTitle } from '../components/atoms/Header/HeaderTitle';
 import { LoginScreen } from '../screens/LoginScreen';
-import { RegisterAccountItemScreen } from '../screens/RegisterAccountItemScreen';
 import { SignUpScreen } from '../screens/SignUpScreen';
 
 import { RootStackParamList } from '../types/navigation';
-import { LOGIN_ROUTE, REGISTER_ACCOUNT_ITEM_ROUTE, SIGN_UP_ROUTE } from './constant';
+import { LOGIN_ROUTE, SIGN_UP_ROUTE } from './constant';
 
 const Root = createStackNavigator<RootStackParamList>();
 const NAV_HEIGHT = Platform.select({
@@ -44,21 +43,6 @@ export const AuthNavigator: React.FC = () => (
       <Root.Screen
         name={SIGN_UP_ROUTE}
         component={SignUpScreen}
-        options={{
-          headerTitle: () => {
-            const component = <HeaderTitle />;
-            return component;
-          },
-          headerLeft: () => {
-            const component = <HeaderIcon />;
-            return component;
-          },
-          headerTitleAlign: 'left',
-        }}
-      />
-      <Root.Screen
-        name={REGISTER_ACCOUNT_ITEM_ROUTE}
-        component={RegisterAccountItemScreen}
         options={{
           headerTitle: () => {
             const component = <HeaderTitle />;

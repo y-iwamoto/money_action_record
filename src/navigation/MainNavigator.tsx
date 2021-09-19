@@ -1,7 +1,12 @@
 import React from 'react';
 import { Feather } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { HOUSEHOLD_ACCOUNTS_ROUTE, MODAL_ROUTE, SET_ACCOUNT_ITEM_ROUTE } from './constant';
+import {
+  HOUSEHOLD_ACCOUNTS_ROUTE,
+  MODAL_ROUTE,
+  REGISTER_ACCOUNT_ITEM_ROUTE,
+  SET_ACCOUNT_ITEM_ROUTE,
+} from './constant';
 import { HouseholdAccountScreen } from '../screens/HouseholdAccountScreen';
 import { HeaderTitle } from '../components/atoms/Header/HeaderTitle';
 import { HeaderIcon } from '../components/atoms/Header/HeaderIcon';
@@ -25,6 +30,13 @@ export const HouseholdAccountStackNavigator: React.FC = () => (
       />
       <RootStack.Screen
         name={SET_ACCOUNT_ITEM_ROUTE}
+        component={RegisterAccountItemScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <RootStack.Screen
+        name={REGISTER_ACCOUNT_ITEM_ROUTE}
         component={RegisterAccountItemScreen}
         options={{
           headerShown: false,
