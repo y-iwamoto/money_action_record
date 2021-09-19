@@ -1,22 +1,17 @@
 import { useIsFocused, useNavigation } from '@react-navigation/native';
-import React, { useContext, useEffect, useState } from 'react';
-import dayjs from 'dayjs';
+import React, { useContext, useState } from 'react';
 
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { HouseholdAccountSection } from '../components/organisms/HouseholdAccountSection';
 import { ExpensesContext } from '../contexts/expenseContext';
 import { ItemsContext } from '../contexts/itemContext';
 import { UserContext } from '../contexts/userContext';
-import { fetchEachExpenses, fetchItems } from '../libs/firestore';
-import {
-  LOGIN_ROUTE,
-  MODAL_ROUTE,
-  REGISTER_ACCOUNT_ITEM_ROUTE,
-  SET_ACCOUNT_ITEM_ROUTE,
-} from '../navigation/constant';
+import { MODAL_ROUTE } from '../navigation/constant';
 import { Expense } from '../types/expense';
 import { AuthScreenNavigationProp } from '../types/navigation';
 import { SearchSection } from '../components/organisms/SearchSection';
+import { UseFetchCommonInfoHook } from '../hooks/userFetchCommonInfoHook';
+import { UseSearchSectionHook } from '../hooks/useSearchSectionHook';
 
 export const HouseholdAccountScreen: React.FC = () => {
   const { user } = useContext(UserContext);
@@ -29,56 +24,13 @@ export const HouseholdAccountScreen: React.FC = () => {
 
   const navigation = useNavigation<AuthScreenNavigationProp>();
   const onPressButton = (expense: Expense) => navigation.navigate(MODAL_ROUTE, expense);
-  const onItemButton = () => navigation.navigate(SET_ACCOUNT_ITEM_ROUTE, items);
-  const onMinnusDayButton = (todayDiff: number) => {
-    setTodayDiff(todayDiff - 7);
-  };
-  const onPlusDayButton = (todayDiff: number) => {
-    setTodayDiff(todayDiff + 7);
-  };
+  const { onItemButton, onMinnusDayButton, onPlusDayButton } = UseSearchSectionHook(
+    navigation,
+    items,
+    setTodayDiff,
+  );
 
-  useEffect(() => {
-    let isMounted = true;
-    const f = async () => {
-      if (isMounted) {
-        if (isMounted) setLoad(true);
-        if (!user) {
-          if (isMounted) setLoad(false);
-          navigation.navigate(LOGIN_ROUTE);
-          return;
-        }
-        const items = await fetchItems(user);
-        if (!items || items.length === 0) {
-          navigation.navigate(REGISTER_ACCOUNT_ITEM_ROUTE);
-          return;
-        }
-        const itemsArray = items ? items : [];
-        if (isMounted) setItems(itemsArray);
-        const daysYMDArray = [...Array(7)].map((_, i) => {
-          if (todayDiff > -1) {
-            return dayjs()
-              .subtract(i - todayDiff, 'days')
-              .format('YYYY/MM/DD');
-          } else {
-            return dayjs()
-              .add(i + todayDiff, 'days')
-              .format('YYYY/MM/DD');
-          }
-        });
-        const expenses = await fetchEachExpenses(user, daysYMDArray, itemsArray);
-        if (isMounted) {
-          setExpenses(expenses);
-          setLoad(false);
-        }
-      }
-    };
-    if (isFocused) {
-      f();
-    }
-    return () => {
-      isMounted = false;
-    };
-  }, [isFocused, navigation, setExpenses, setItems, user, todayDiff]);
+  UseFetchCommonInfoHook(setLoad, user, navigation, setItems, todayDiff, setExpenses, isFocused);
 
   const component = !load ? (
     <View>
