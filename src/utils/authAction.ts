@@ -69,3 +69,31 @@ export const signup = async (
     return { transfer: SIGN_UP_ROUTE, user: {} };
   }
 };
+
+export const logout = (): Promise<boolean> => {
+  return new Promise((resolve) => {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        alert('ログアウトしました');
+        resolve(true);
+      })
+      .catch((error: string) => {
+        alert(`ログアウト時にエラーが発生しました (${error})`);
+        resolve(false);
+      });
+  });
+};
+
+export const authenticated = (): Promise<boolean> => {
+  return new Promise((resolve) => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user != null) {
+        resolve(true);
+      } else {
+        resolve(false);
+      }
+    });
+  });
+};
