@@ -118,14 +118,14 @@ export const fetchEachExpenses = async (
           itemsArray.map(async (item) => {
             const querySnapshot = user
               ? await db
-                  .collection('users')
-                  .doc(user.uid)
-                  .collection('items')
-                  .doc(item.item_id)
-                  .collection('expenses')
-                  .where('date', '==', day)
-                  .where('item_id', '==', item.item_id)
-                  .get()
+                .collection('users')
+                .doc(user.uid)
+                .collection('items')
+                .doc(item.item_id)
+                .collection('expenses')
+                .where('date', '==', day)
+                .where('item_id', '==', item.item_id)
+                .get()
               : null;
             let expense: Expense = initialExpense;
             if (querySnapshot) {
@@ -138,23 +138,23 @@ export const fetchEachExpenses = async (
             return expense && expense.amount
               ? expense
               : Object.assign(
-                  {
-                    expense_id: '',
-                    uid: '',
-                    item_id: '',
-                    amount: 0,
-                    date: '',
-                    createdAt: firebase.firestore.Timestamp.now(),
-                    updatedAt: firebase.firestore.Timestamp.now(),
-                  },
-                  {
-                    item_id: item.item_id,
-                    date: day,
-                    uid: user.uid,
-                    createdAt: Date.now(),
-                    updatedAt: Date.now(),
-                  },
-                );
+                {
+                  expense_id: '',
+                  uid: '',
+                  item_id: '',
+                  amount: 0,
+                  date: '',
+                  createdAt: firebase.firestore.Timestamp.now(),
+                  updatedAt: firebase.firestore.Timestamp.now(),
+                },
+                {
+                  item_id: item.item_id,
+                  date: day,
+                  uid: user.uid,
+                  createdAt: Date.now(),
+                  updatedAt: Date.now(),
+                },
+              );
           }),
         );
         return itemMap;

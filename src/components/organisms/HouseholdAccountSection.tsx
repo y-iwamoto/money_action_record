@@ -31,21 +31,21 @@ export const HouseholdAccountSection: React.FC<Props> = ({
   itemsArray.unshift('');
   let width = 0;
   switch (itemsArray.length) {
-    case 1:
-      width = wp('50%');
-      break;
-    case 2:
-      width = wp('45%');
-      break;
-    case 3:
-      width = wp('30%');
-      break;
-    case 4:
-      width = wp('22%');
-      break;
-    default:
-      width = wp('20%');
-      break;
+  case 1:
+    width = wp('50%');
+    break;
+  case 2:
+    width = wp('45%');
+    break;
+  case 3:
+    width = wp('30%');
+    break;
+  case 4:
+    width = wp('22%');
+    break;
+  default:
+    width = wp('20%');
+    break;
   }
   const itemsWidthArray = [...Array(itemsArray.length)].map(() => width);
   const valuesWidthArray = [...Array(itemsArray.length - 1)].map(() => width);

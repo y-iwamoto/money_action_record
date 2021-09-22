@@ -41,10 +41,8 @@ export const ChartHouseholdAccountScreen: React.FC = () => {
     setTodayDiff,
   );
   const [load, setLoad] = useState(false);
-  // New start
   const [chartData, setChartData] = useState<ChartData>();
   const [pieChartData, setPieChartData] = useState<PieChartData>();
-  // New end
 
   UseFetchCommonInfoHook(setLoad, user, navigation, setItems, todayDiff, setExpenses, isFocused);
 

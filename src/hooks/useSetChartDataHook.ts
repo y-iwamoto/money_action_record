@@ -77,13 +77,13 @@ export function UseSetChartDataHook(
   const dataAccumulate = data.map((d) => d.reduce((sum, element) => sum + element));
   const dataAccumulateSets = items
     ? items.map((item, i) => ({
-        name: item.name,
-        population: dataAccumulate[i],
-        color: COLOR[i],
-        strokeWidth: 2,
-        legendFontColor: '#7F7F7F',
-        legendFontSize: 15,
-      }))
+      name: item.name,
+      population: dataAccumulate[i],
+      color: COLOR[i],
+      strokeWidth: 2,
+      legendFontColor: '#7F7F7F',
+      legendFontSize: 15,
+    }))
     : [];
   setPieChartData(dataAccumulateSets);
 }
