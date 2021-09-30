@@ -6,7 +6,7 @@ type Props = {
   style: { transform: { rotate: string }[] };
   onPressButton: () => void;
 };
-export const Triangle: React.FC<Props> = ({ style, onPressButton }: Props) => {
+const Triangle: React.FC<Props> = ({ style, onPressButton }: Props) => {
   return (
     <View>
       <TouchableOpacity onPress={onPressButton}>
@@ -15,6 +15,8 @@ export const Triangle: React.FC<Props> = ({ style, onPressButton }: Props) => {
     </View>
   );
 };
+
+export default React.memo(Triangle);
 
 const styles = StyleSheet.create({
   triangle: {

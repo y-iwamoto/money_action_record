@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react-native';
 import React from 'react';
 import CenterView from '../../../storybook/stories/CenterView';
-import { PieChartSection } from './PieChartSection';
+import PieChartSection from './PieChartSection';
 
 const pieChartData = [
   {

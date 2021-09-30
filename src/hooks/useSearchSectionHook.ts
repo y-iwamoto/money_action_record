@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { SET_ACCOUNT_ITEM_ROUTE } from '../navigation/constant';
 import { AuthScreenNavigationProp } from '../types/navigation';
 import { Item } from '../types/item';
@@ -13,12 +14,21 @@ export function UseSearchSectionHook(
   items: Item[],
   setTodayDiff: (value: ((prevState: number) => number) | number) => void,
 ): ReturnType {
-  const onItemButton = () => navigation.navigate(SET_ACCOUNT_ITEM_ROUTE, items);
-  const onMinnusDayButton = (todayDiff: number) => {
-    setTodayDiff(todayDiff - 7);
-  };
-  const onPlusDayButton = (todayDiff: number) => {
-    setTodayDiff(todayDiff + 7);
-  };
+  const onItemButton = useCallback(
+    () => navigation.navigate(SET_ACCOUNT_ITEM_ROUTE, items),
+    [navigation, items],
+  );
+  const onMinnusDayButton = useCallback(
+    (todayDiff: number) => {
+      setTodayDiff(todayDiff - 7);
+    },
+    [setTodayDiff],
+  );
+  const onPlusDayButton = useCallback(
+    (todayDiff: number) => {
+      setTodayDiff(todayDiff + 7);
+    },
+    [setTodayDiff],
+  );
   return { onItemButton, onMinnusDayButton, onPlusDayButton };
 }

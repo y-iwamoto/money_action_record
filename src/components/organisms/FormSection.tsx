@@ -6,7 +6,7 @@ import {
 } from 'react-native-responsive-screen';
 
 import { View, StyleSheet } from 'react-native';
-import { PrimaryButton } from '../atoms/Button/PrimaryButton';
+import PrimaryButton from '../atoms/Button/PrimaryButton';
 import { HeadingText } from '../atoms/Text/HeadingText';
 import { NoteText } from '../atoms/Text/NoteText';
 import { Inputs } from '../atoms/Form/Inputs';

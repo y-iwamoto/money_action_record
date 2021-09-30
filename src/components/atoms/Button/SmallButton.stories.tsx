@@ -2,7 +2,7 @@ import { storiesOf } from '@storybook/react-native';
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 import CenterView from '../../../../storybook/stories/CenterView';
-import { SmallButton } from './SmallButton';
+import SmallButton from './SmallButton';
 
 storiesOf('Atoms/Button/SmallButton', module)
   .addDecorator((getStory) => <CenterView>{getStory()}</CenterView>)

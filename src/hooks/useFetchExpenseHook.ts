@@ -10,7 +10,6 @@ export async function UseFetchExpenseHook(
   itemsArray: Item[],
   isMounted: boolean,
   setExpenses: (expenses: Expense[][]) => void,
-  setLoad: (value: ((prevState: boolean) => boolean) | boolean) => void,
 ): Promise<void> {
   const daysYMDArray = [...Array(7)].map((_, i) => {
     if (todayDiff > -1) {
@@ -26,6 +25,5 @@ export async function UseFetchExpenseHook(
   const expenses = await fetchEachExpenses(user, daysYMDArray, itemsArray);
   if (isMounted) {
     setExpenses(expenses);
-    setLoad(false);
   }
 }

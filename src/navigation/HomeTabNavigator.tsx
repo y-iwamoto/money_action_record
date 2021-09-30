@@ -7,12 +7,12 @@ import {
   REGISTER_ACCOUNT_ITEM_ROUTE,
   SET_ACCOUNT_ITEM_ROUTE,
 } from './constant';
-import { HouseholdAccountScreen } from '../screens/HouseholdAccountScreen';
+import HouseholdAccountScreen from '../screens/HouseholdAccountScreen';
 import { RootStackParamList } from '../types/navigation';
 import { createStackNavigator } from '@react-navigation/stack';
 import { ModalScreen } from '../screens/ModalScreen';
 import { RegisterAccountItemScreen } from '../screens/RegisterAccountItemScreen';
-import { ChartHouseholdAccountScreen } from '../screens/ChartHouseholdAccountScreen';
+import ChartHouseholdAccountScreen from '../screens/ChartHouseholdAccountScreen';
 
 const Tab = createBottomTabNavigator();
 const RootStack = createStackNavigator<RootStackParamList>();

@@ -1,7 +1,7 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { HomeTabNavigator } from './HomeTabNavigator';
-import { ChartHouseholdAccountScreen } from '../screens/ChartHouseholdAccountScreen';
+import ChartHouseholdAccountScreen from '../screens/ChartHouseholdAccountScreen';
 import { SignOutScreen } from '../screens/SignOutScreen';
 import { HeaderTitle } from '../components/atoms/Header/HeaderTitle';
 

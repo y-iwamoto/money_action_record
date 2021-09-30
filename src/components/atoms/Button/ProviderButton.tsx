@@ -24,12 +24,12 @@ const width = Dimensions.get('window').width;
 export const ProviderButton: React.FC<Props> = ({ providerType, title, authAction }: Props) => {
   let imageUrl;
   switch (providerType) {
-    case 'facebook':
-      imageUrl = require('../../../../assets/facebook.png');
-      break;
-    case 'google':
-      imageUrl = require('../../../../assets/google.png');
-      break;
+  case 'facebook':
+    imageUrl = require('../../../../assets/facebook.png');
+    break;
+  case 'google':
+    imageUrl = require('../../../../assets/google.png');
+    break;
   }
   return (
     <TouchableOpacity

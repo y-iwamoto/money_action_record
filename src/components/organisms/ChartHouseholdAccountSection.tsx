@@ -5,18 +5,20 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import { ChartData } from '../../screens/ChartHouseholdAccountScreen';
-import { Line } from '../atoms/Chart/Line';
+import Line from '../atoms/Chart/Line';
 
 type Props = {
   data: ChartData;
 };
-export const ChartHouseholdAccountSection: React.FC<Props> = ({ data }: Props) => {
+const ChartHouseholdAccountSection: React.FC<Props> = ({ data }: Props) => {
   return (
     <View style={styles.container}>
       <Line data={data} />
     </View>
   );
 };
+
+export default React.memo(ChartHouseholdAccountSection);
 
 const styles = StyleSheet.create({
   container: {

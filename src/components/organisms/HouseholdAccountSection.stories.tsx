@@ -2,7 +2,7 @@ import { storiesOf } from '@storybook/react-native';
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 import CenterView from '../../../storybook/stories/CenterView';
-import { HouseholdAccountSection } from './HouseholdAccountSection';
+import HouseholdAccountSection from './HouseholdAccountSection';
 import firebase from 'firebase';
 
 storiesOf('Organisms/HouseholdAccountSection', module)

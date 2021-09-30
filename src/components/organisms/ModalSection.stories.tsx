@@ -2,7 +2,7 @@ import { storiesOf } from '@storybook/react-native';
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 import CenterView from '../../../storybook/stories/CenterView';
-import { ModalSection } from './ModalSection';
+import ModalSection from './ModalSection';
 import ExpesnseFormContext from '../../../storybook/stories/ExpesnseFormContext';
 
 storiesOf('Organisms/ModalSection', module)

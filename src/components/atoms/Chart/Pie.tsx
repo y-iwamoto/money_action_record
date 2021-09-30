@@ -21,7 +21,7 @@ type Props = {
   data: PieChartData;
 };
 
-export const Pie: React.FC<Props> = ({ data }: Props) => {
+const Pie: React.FC<Props> = ({ data }: Props) => {
   return (
     <View style={styles.border}>
       <PieChart
@@ -36,6 +36,8 @@ export const Pie: React.FC<Props> = ({ data }: Props) => {
     </View>
   );
 };
+export default React.memo(Pie);
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

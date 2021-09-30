@@ -22,7 +22,9 @@ export function UseFetchCommonInfoHook(
       if (isMounted) {
         if (isMounted) setLoad(true);
         if (!user) {
-          if (isMounted) setLoad(false);
+          if (isMounted) {
+            setLoad(false);
+          }
           navigation.navigate(LOGIN_ROUTE);
           return;
         }
@@ -32,7 +34,10 @@ export function UseFetchCommonInfoHook(
           return;
         }
 
-        await UseFetchExpenseHook(todayDiff, user, itemsArray, isMounted, setExpenses, setLoad);
+        await UseFetchExpenseHook(todayDiff, user, itemsArray, isMounted, setExpenses);
+        if (isMounted) {
+          setLoad(false);
+        }
       }
     };
     if (isFocused) {

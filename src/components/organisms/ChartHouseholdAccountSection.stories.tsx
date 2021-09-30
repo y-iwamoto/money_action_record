@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react-native';
 import React from 'react';
 import CenterView from '../../../storybook/stories/CenterView';
-import { ChartHouseholdAccountSection } from './ChartHouseholdAccountSection';
+import ChartHouseholdAccountSection from './ChartHouseholdAccountSection';
 
 const chartData = {
   labels: ['09/01', '09/02', '09/03', '09/04', '09/05', '09/06', '09/07'],

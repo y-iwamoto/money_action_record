@@ -18,7 +18,7 @@ type Props = {
   data: ChartData;
 };
 
-export const Line: React.FC<Props> = ({ data }: Props) => {
+const Line: React.FC<Props> = ({ data }: Props) => {
   return (
     <View style={styles.border}>
       <LineChart
@@ -33,6 +33,7 @@ export const Line: React.FC<Props> = ({ data }: Props) => {
   );
 };
 
+export default React.memo(Line);
 const styles = StyleSheet.create({
   border: {
     borderWidth: 1,
