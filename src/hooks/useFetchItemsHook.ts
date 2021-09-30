@@ -13,6 +13,8 @@ export async function UseFetchItemsHook(
 ): Promise<ReturnType> {
   const items = await fetchItems(user);
   const itemsArray = items ? items : [];
-  if (isMounted) setItems(itemsArray);
+  if (isMounted) {
+    setItems(itemsArray);
+  }
   return { items, itemsArray };
 }

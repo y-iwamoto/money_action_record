@@ -13,44 +13,34 @@ type Props = {
   expenses: Array<Expense[]>;
   todayDiff: number;
 };
-export const HouseholdAccountSection: React.FC<Props> = ({
-  onPressButton,
-  items,
-  expenses,
-  todayDiff,
-}: Props) => {
-  const elementButton = (expense: Expense) => {
-    return (
-      <TouchableOpacity onPress={() => onPressButton(expense)}>
-        <Text>{expense.amount}</Text>
-      </TouchableOpacity>
-    );
-  };
 
+function getItemsWidthArray(items: Item[]) {
   const itemsArray = items && items.length !== 0 ? items.map((item) => item['name']) : [];
   itemsArray.unshift('');
   let width = 0;
   switch (itemsArray.length) {
-    case 1:
-      width = wp('50%');
-      break;
-    case 2:
-      width = wp('45%');
-      break;
-    case 3:
-      width = wp('30%');
-      break;
-    case 4:
-      width = wp('22%');
-      break;
-    default:
-      width = wp('20%');
-      break;
+  case 1:
+    width = wp('50%');
+    break;
+  case 2:
+    width = wp('45%');
+    break;
+  case 3:
+    width = wp('30%');
+    break;
+  case 4:
+    width = wp('22%');
+    break;
+  default:
+    width = wp('20%');
+    break;
   }
   const itemsWidthArray = [...Array(itemsArray.length)].map(() => width);
   const valuesWidthArray = [...Array(itemsArray.length - 1)].map(() => width);
-  const [tableHead] = useState(itemsArray);
+  return { itemsArray, width, itemsWidthArray, valuesWidthArray };
+}
 
+function getDaysArray(todayDiff: number) {
   const daysArray = [...Array(7)].map((_, i) => {
     if (todayDiff > -1) {
       return dayjs()
@@ -63,12 +53,40 @@ export const HouseholdAccountSection: React.FC<Props> = ({
     }
   });
   const daysHeightArray = [...Array(daysArray.length)].map(() => 28);
+  return { daysArray, daysHeightArray };
+}
+
+function getExpensesArray(
+  expenses: Array<Expense[]>,
+  elementButton: (expense: Expense) => JSX.Element,
+) {
+  return expenses && expenses.length !== 0
+    ? expenses.map((expenseOneday) => expenseOneday.map((expense) => elementButton(expense)))
+    : [];
+}
+
+const HouseholdAccountSection: React.FC<Props> = ({
+  onPressButton,
+  items,
+  expenses,
+  todayDiff,
+}: Props) => {
+  const elementButton = (expense: Expense) => {
+    return (
+      <TouchableOpacity onPress={() => onPressButton(expense)}>
+        <Text>{expense.amount}</Text>
+      </TouchableOpacity>
+    );
+  };
+  const { itemsArray, width, itemsWidthArray, valuesWidthArray } = React.useMemo(
+    () => getItemsWidthArray(items),
+    [items],
+  );
+  const [tableHead] = useState(itemsArray);
+  const { daysArray, daysHeightArray } = React.useMemo(() => getDaysArray(todayDiff), [todayDiff]);
   const [tableTitle] = useState(daysArray);
 
-  const expensesArray =
-    expenses && expenses.length !== 0
-      ? expenses.map((expenseOneday) => expenseOneday.map((expense) => elementButton(expense)))
-      : [];
+  const expensesArray = getExpensesArray(expenses, elementButton);
   const [tableData] = useState(expensesArray);
 
   return (
@@ -103,6 +121,7 @@ export const HouseholdAccountSection: React.FC<Props> = ({
     </View>
   );
 };
+export default React.memo(HouseholdAccountSection);
 
 const styles = StyleSheet.create({
   container: { padding: 20, paddingTop: 30, backgroundColor: '#fff' },

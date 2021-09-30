@@ -7,7 +7,7 @@ type Props = {
   todayDiff: number;
 };
 
-export const DateFromTo: React.FC<Props> = ({ todayDiff }: Props) => {
+const DateFromTo: React.FC<Props> = ({ todayDiff }: Props) => {
   const FromDay = dayjs()
     .add(0 + todayDiff, 'days')
     .format('YYYY/MM/DD');
@@ -22,6 +22,7 @@ export const DateFromTo: React.FC<Props> = ({ todayDiff }: Props) => {
     </View>
   );
 };
+export default React.memo(DateFromTo);
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',

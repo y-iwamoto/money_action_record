@@ -5,8 +5,8 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-import { Triangle } from '../atoms/Figure/Triangle';
-import { DateFromTo } from '../atoms/Text/DateFromTo';
+import Triangle from '../atoms/Figure/Triangle';
+import DateFromTo from '../atoms/Text/DateFromTo';
 
 type Props = {
   onMinnusDayButton: () => void;
@@ -14,11 +14,7 @@ type Props = {
   todayDiff: number;
 };
 
-export const SearchForm: React.FC<Props> = ({
-  onMinnusDayButton,
-  onPlusDayButton,
-  todayDiff,
-}: Props) => {
+const SearchForm: React.FC<Props> = ({ onMinnusDayButton, onPlusDayButton, todayDiff }: Props) => {
   return (
     <View style={styles.container}>
       <Triangle style={styles.triangleLeft} onPressButton={onMinnusDayButton} />
@@ -27,7 +23,7 @@ export const SearchForm: React.FC<Props> = ({
     </View>
   );
 };
-
+export default React.memo(SearchForm);
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',

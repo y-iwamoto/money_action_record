@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { Input } from '../atoms/Form/Input';
 import { Modal, ModalBody, ModalContainer, ModalFooter, ModalHeader } from '../atoms/Form/Modal';
 import { NoteText } from '../atoms/Text/NoteText';
-import { SmallButtons } from '../molecules/SmallButtons';
+import SmallButtons from '../molecules/SmallButtons';
 
 type ModalProps = {
   isModalVisible: boolean;
@@ -11,7 +11,7 @@ type ModalProps = {
   handleSaveAccount: () => void;
 };
 
-export const ModalSection: React.FC<ModalProps> = ({
+const ModalSection: React.FC<ModalProps> = ({
   isModalVisible,
   handleDecline,
   handleSaveAccount,
@@ -33,6 +33,7 @@ export const ModalSection: React.FC<ModalProps> = ({
     </Modal>
   );
 };
+export default React.memo(ModalSection);
 
 const styles = StyleSheet.create({
   container: {

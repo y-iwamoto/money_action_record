@@ -2,7 +2,7 @@ import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { ModalSection } from '../components/organisms/ModalSection';
+import ModalSection from '../components/organisms/ModalSection';
 import { saveExpense } from '../libs/firestore';
 import { HOUSEHOLD_ACCOUNTS_ROUTE } from '../navigation/constant';
 import { AuthScreenNavigationProp, RootStackParamList } from '../types/navigation';
@@ -24,15 +24,19 @@ export const ModalScreen: React.FC<ModalProps> = () => {
     defaultValues: { amount: expense && expense.amount ? expense.amount : '0' },
   });
   const navigation = useNavigation<AuthScreenNavigationProp>();
-  const handleDecline = () => {
+  const handleDecline = React.useCallback(() => {
     setIsModalVisible(false);
     navigation.navigate(HOUSEHOLD_ACCOUNTS_ROUTE);
-  };
+  }, [navigation]);
 
-  const handleSaveAccount = async (data: { amount: string }) => {
-    await saveExpense(Object.assign(expense, { amount: data.amount }));
-    navigation.navigate(HOUSEHOLD_ACCOUNTS_ROUTE);
-  };
+  const handleSaveAccount = React.useCallback(
+    async (data: { amount: string }) => {
+      await saveExpense(Object.assign(expense, { amount: data.amount }));
+      navigation.navigate(HOUSEHOLD_ACCOUNTS_ROUTE);
+    },
+    [expense, navigation],
+  );
+
   return (
     <FormProvider {...methods}>
       <ModalSection

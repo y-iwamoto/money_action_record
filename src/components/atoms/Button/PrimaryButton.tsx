@@ -11,7 +11,7 @@ type Props = {
   action: ((e?: BaseSyntheticEvent<object, any, any> | undefined) => Promise<void>) | (() => void);
 };
 
-export const PrimaryButton: React.FC<Props> = ({ label, action }: Props) => {
+const PrimaryButton: React.FC<Props> = ({ label, action }: Props) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={action}>
@@ -20,6 +20,7 @@ export const PrimaryButton: React.FC<Props> = ({ label, action }: Props) => {
     </View>
   );
 };
+export default React.memo(PrimaryButton);
 
 const styles = StyleSheet.create({
   container: {

@@ -4,9 +4,9 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { PrimaryButton } from '../atoms/Button/PrimaryButton';
+import PrimaryButton from '../atoms/Button/PrimaryButton';
 
-import { SearchForm } from '../molecules/SearchForm';
+import SearchForm from '../molecules/SearchForm';
 
 type Props = {
   onItemButton: () => void;
@@ -15,7 +15,7 @@ type Props = {
   todayDiff: number;
 };
 
-export const SearchSection: React.FC<Props> = ({
+const SearchSection: React.FC<Props> = ({
   onItemButton,
   onMinnusDayButton,
   onPlusDayButton,
@@ -32,6 +32,7 @@ export const SearchSection: React.FC<Props> = ({
     </View>
   );
 };
+export default React.memo(SearchSection);
 
 const styles = StyleSheet.create({
   container: {

@@ -5,7 +5,7 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 
-import { PrimaryButton } from '../atoms/Button/PrimaryButton';
+import PrimaryButton from '../atoms/Button/PrimaryButton';
 import { HeadingText } from '../atoms/Text/HeadingText';
 
 type Props = {

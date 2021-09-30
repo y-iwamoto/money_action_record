@@ -2,7 +2,7 @@ import { storiesOf } from '@storybook/react-native';
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 import CenterView from '../../../../storybook/stories/CenterView';
-import { Triangle } from './Triangle';
+import Triangle from './Triangle';
 
 storiesOf('Atoms/Figure/Triangle', module)
   .addDecorator((getStory) => <CenterView>{getStory()}</CenterView>)
